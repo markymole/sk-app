@@ -112,6 +112,24 @@ class Users
         }
     }
 
+    public function getUsersByBarangay($barangay)
+    {
+        $query = 'SELECT * FROM users WHERE barangay = ? AND role != "Member"';
+        $params = [$barangay];
+
+        $result = $this->db->read($query, $params);
+
+        if ($result) {
+            $users = [];
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row;
+            }
+            return $users;
+        } else {
+            return false;
+        }
+    }
+
 
     public function updateUserInfo($userId, $first_name, $last_name, $username, $barangay, $role, $gender, $email)
     {

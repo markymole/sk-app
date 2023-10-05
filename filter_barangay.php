@@ -11,12 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $posts = $post->get_posts_by_barangay($selectedBarangay);
 
-    if (isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0) {
-        $currentPage = intval($_GET['page']);
-    } else {
-        $currentPage = 1;
-    }
-    renderPosts($posts, $currentPage, $postsPerPage = 10);
+    renderPosts($posts);
 }
 
 include './templates/edit_modal.php';

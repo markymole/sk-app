@@ -1,13 +1,36 @@
 <section class="min-h-screen bg-gray-900">
-    <div class="container flex flex-col lg:flex-row gap-10 w-full lg:max-w-7xl py-10 mx-auto">
-        <div id="left-section" class="w-1/4 hidden lg:block">
+    <div class="container flex flex-col lg:flex-row gap-8 w-full lg:max-w-7xl py-10 mx-auto">
 
+        <!-- mobile user container -->
+        <div id="user-modal" class="modal w-full">
+            <div class="modal-content w-11/12 md:w-1/3 mx-auto py-6 rounded-lg border">
+                <div class="user-container px-4">
+                    <?php require_once './templates/users_template.php';
+                    renderUsers($barangayUsers);
+                    ?>
+                </div>
+                <div class="w-full flex justify-end px-4">
+                    <button id="closeUserModal" class="text-white bg-red-500 rounded-md px-4 py-1 mt-4">Close</button>
+
+                </div>
+            </div>
         </div>
-        <div class="w-full px-3 lg:px-0 lg:w-3/4">
-            <div class="flex gap-6 items-end lg:items-center justify-between">
-                <h1 class="text-xl lg:text-2xl text-white font-bold lg:font-medium">Barangay <?php echo $barangay ?></h1>
 
-                <div class="flex flex-col lg:flex-row items-center gap-2">
+        <!-- desktop user container -->
+        <div id="left-section" class="w-full lg:w-1/4 h-[100vh] px-3">
+            <h1 id="barangay_name" class="text-xl lg:text-2xl text-white font-bold lg:font-medium">Barangay <?php echo $barangay ?></h1>
+            <div class="user-container hidden lg:flex bg-white w-full mt-6 rounded-lg p-4 max-w-md bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                <?php require_once './templates/users_template.php';
+                renderUsers($barangayUsers);
+                ?>
+            </div>
+        </div>
+
+
+        <div class="w-full px-3 lg:px-0 lg:w-3/4">
+            <div class="flex flex-row lg:flex-row-reverse gap-6 items-end lg:items-center justify-between">
+
+                <div class="flex flex-col lg:flex-row items-start gap-2">
                     <label for="barangay-select" class="text-white">Select Barangay:</label>
                     <select id="barangay-select" class="text-white bg-gray-600 rounded-md px-4 py-1">
                         <option value="Amsic" <?php echo ($barangay === 'Amsic') ? 'selected' : ''; ?>>Amsic</option>
@@ -21,6 +44,9 @@
                         <option value="Sta. Teresita" <?php echo ($barangay === 'Sta. Teresita') ? 'selected' : ''; ?>>Sta. Teresita</option>
                     </select>
                 </div>
+                <button id="showUserModal" class="flex lg:hidden text-white bg-gray-600 rounded-md px-4 py-1 text-sm">
+                    <p> Show SK Members</p>
+                </button>
 
             </div>
 
@@ -28,20 +54,10 @@
             <div id="post-container">
                 <?php require_once './templates/post_template.php';
 
-                if (isset($_GET['page']) && is_numeric($_GET['page']) && $_GET['page'] > 0) {
-                    $currentPage = intval($_GET['page']);
-                } else {
-                    $currentPage = 1;
-                }
                 renderPosts($posts);
                 ?>
 
             </div>
-            <div id="filtered-post-container" style="display: none;">
-            </div>
-
-
-
         </div>
     </div>
 
@@ -81,30 +97,40 @@
 
 <script>
     $(document).ready(function() {
-        function filterPostsByBarangay(barangay) {
+        $('#barangay-select').change(function() {
+            var selectedBarangay = $(this).val();
+            $('#barangay_name').text('Barangay ' + selectedBarangay);
+
+            console.log(selectedBarangay);
             $.ajax({
                 type: 'POST',
-                url: 'filter.php', // Replace with the actual URL for filtering
+                url: './filter_barangay.php',
                 data: {
-                    barangay: barangay
+                    barangay: selectedBarangay
                 },
                 success: function(response) {
-                    // Display the filtered posts in the filtered-post-container
-                    $('#filtered-post-container').html(response);
-                    $('#filtered-post-container').show();
-
-                    // Hide the original post container
-                    $('#post-container').hide();
+                    $('#post-container').html(response);
+                    console.log('success');
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error: ' + error);
                 }
             });
-        }
 
-        $('#filter-button').click(function() {
-            var selectedBarangay = $('#barangay-select').val();
-            filterPostsByBarangay(selectedBarangay);
+            $.ajax({
+                type: 'POST',
+                url: './filter_users.php',
+                data: {
+                    barangay: selectedBarangay
+                },
+                success: function(userResponse) {
+                    $('.user-container').html(userResponse);
+                    console.log('User filter success');
+                },
+                error: function(xhr, status, error) {
+                    console.error('User AJAX Error: ' + error);
+                }
+            });
         });
 
         $('#closeModal').click(function() {
@@ -168,6 +194,15 @@
 
             $('#imageModal').fadeIn();
 
+        });
+
+        $('#showUserModal').click(function() {
+            $('#user-modal').fadeIn();
+        });
+
+        // Close the user modal when "Close" button is clicked
+        $('#closeUserModal').click(function() {
+            $('#user-modal').fadeOut();
         });
 
         var activePostAction = null;

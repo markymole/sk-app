@@ -2,8 +2,6 @@
 
 require_once './config/autoload.php';
 
-
-
 $post = new Posts();
 $user = new Users();
 $image = new Images();
@@ -37,6 +35,7 @@ if (!$user_data || $barangay == "Guest" ||  $barangay == "Unknown") {
     $posts = $post->get_all_posts_with_author_info();
 } else {
     $posts = $post->get_posts_by_barangay($barangay);
+    $barangayUsers = $user->getUsersByBarangay($barangay);
 }
 ?>
 
