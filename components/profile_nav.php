@@ -1,6 +1,8 @@
 <?php
 
 $image_src = $image->getUserProfileImage($id, $gender);
+$messages = $message->getMessages($id);
+
 
 ?>
 <header>
@@ -43,7 +45,7 @@ $image_src = $image->getUserProfileImage($id, $gender);
 
                             </button>
 
-                            <div id="message-container" class="hidden absolute bg-white p-4 rounded-lg">
+                            <div id="message-container" class="hidden  absolute bg-white p-4 rounded-lg">
                                 <?php include './templates/message_templates.php' ?>
                             </div>
                         </div>

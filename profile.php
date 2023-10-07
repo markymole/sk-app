@@ -5,6 +5,7 @@ require_once './config/autoload.php';
 $post = new Posts();
 $user = new Users();
 $image = new Images();
+$message = new Messages();
 
 $posts = $post->get_all_posts();
 
