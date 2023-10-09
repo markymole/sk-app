@@ -2,9 +2,11 @@
 
 require_once(dirname(__DIR__) .  '\config\database.php');
 
-class Search{
+class Search
+{
 
-    function searchUsers($searchTerm){
+    function searchUsers($searchTerm)
+    {
 
         $db = new Database();
 
@@ -29,6 +31,22 @@ class Search{
             return [];
         }
     }
-}
 
-?>
+    function searchUser($userId)
+    {
+        $db = new Database();
+
+        $query = 'SELECT * FROM users WHERE id = ?';
+        $params = [$userId];
+
+        $result = $db->read($query, $params);
+
+        if ($result && $result->num_rows === 1) {
+
+            $user_data = $result->fetch_assoc();
+            return $user_data;
+        } else {
+            return false;
+        }
+    }
+}
