@@ -7,6 +7,8 @@ $user = new Users();
 $image = new Images();
 $date = new General();
 $uploads = new Uploads();
+$message = new Messages();
+
 
 $user_data = null;
 if (isset($_SESSION['user_id'])) {
@@ -38,7 +40,6 @@ if (!$user_data || $barangay == "Guest" ||  $barangay == "Unknown") {
     $barangayUsers = $user->getUsersByBarangay($barangay);
 }
 ?>
-
 
 
 <?php

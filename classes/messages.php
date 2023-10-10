@@ -66,6 +66,76 @@ class Messages
         }
     }
 
+    public function getUsersWithLastMessage($userId)
+    {
+        $db = new Database();
+
+        $query = "SELECT m1.sender_id, m1.receiver_id, m1.message, m1.created_at,
+             u.username AS receiver_username, u.id AS receiver_id,
+             u.first_name AS receiver_first_name, u.last_name AS receiver_last_name,
+             u.gender AS receiver_gender,
+             MAX(m1.created_at) AS last_message_time
+          FROM messages m1
+          LEFT JOIN users u ON (m1.receiver_id = u.id)
+          WHERE (m1.sender_id = ? OR m1.receiver_id = ?)
+          AND u.id != ?
+          GROUP BY u.id 
+          ORDER BY last_message_time DESC";
+
+        $params = [$userId, $userId, $userId];
+
+        $result = $db->read($query, $params);
+
+        if ($result->num_rows > 0) {
+            $users = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $receiverId = $row['receiver_id'];
+
+                // Check if the receiver ID already exists in the result array
+                if (!isset($users[$receiverId])) {
+                    $latestMessage = $this->getLatestMessageForUser($db, $userId, $receiverId);
+
+                    $users[$receiverId] = [
+                        'receiver_id' => $receiverId,
+                        'receiver_username' => $row['receiver_username'],
+                        'receiver_first_name' => $row['receiver_first_name'],
+                        'receiver_last_name' => $row['receiver_last_name'],
+                        'receiver_gender' => $row['receiver_gender'],
+                        'last_message' => [
+                            'message' => $latestMessage['message'],
+                            'created_at' => $row['last_message_time'],
+                        ],
+                    ];
+                }
+            }
+
+            return array_values($users);
+        } else {
+            // Return an empty array if there are no results
+            return [];
+        }
+    }
+
+    private function getLatestMessageForUser($db, $userId, $receiverId)
+    {
+        $query = "SELECT message, created_at FROM messages
+              WHERE (sender_id = ? OR receiver_id = ?)
+              AND (sender_id = ? OR receiver_id = ?)
+              ORDER BY created_at DESC
+              LIMIT 1";
+
+        $params = [$userId, $userId, $receiverId, $receiverId];
+
+        $result = $db->read($query, $params);
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return [];
+        }
+    }
+
     public function getConversationMessages($receiverId, $senderId)
     {
         $db = new Database();

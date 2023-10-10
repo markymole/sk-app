@@ -1,6 +1,6 @@
 <?php
 
-$image_src = $image->getUserProfileImage($id, $gender);
+$cover_image = $image->getUserProfileImage($id, $gender);
 ?>
 
 <div class="px-3 lg:px-0 max-w-5xl mx-auto mt-10">
@@ -8,7 +8,7 @@ $image_src = $image->getUserProfileImage($id, $gender);
         <div class="flex flex-col gap-2 lg:flex-row lg:items-baseline px-8 md:px-10 pt-6">
             <div class="flex items-center gap-4">
                 <div class="relative">
-                    <img src="<?php echo $image_src ?>" class="h-32 w-32 border-4 object-cover border-white rounded-full cursor-pointer" id="profileImage">
+                    <img src="<?php echo $cover_image ?>" class="h-32 w-32 border-4 object-cover border-white rounded-full cursor-pointer" id="profileImage">
                     <div class="absolute top-30 w-56 bg-white border border-gray-300 rounded-lg shadow-md hidden" id="profilePictureOptions">
                         <ul class="py-2">
                             <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="uploadProfilePicture">Upload Profile Picture</li>

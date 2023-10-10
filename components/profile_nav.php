@@ -1,9 +1,6 @@
 <?php
-
-$image_src = $image->getUserProfileImage($id, $gender);
-$messages = $message->getMessages($id);
-
-
+$image_srcs = $image->getUserProfileImage($id, $gender);
+$messages = $message->getUsersWithLastMessage($id);
 ?>
 <header>
     <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
@@ -45,7 +42,7 @@ $messages = $message->getMessages($id);
 
                             </button>
 
-                            <div id="message-container" class="hidden  absolute bg-white p-4 rounded-lg">
+                            <div id="message-container" class="hidden right-0 absolute">
                                 <?php include './templates/message_templates.php' ?>
                             </div>
                         </div>
@@ -121,7 +118,7 @@ $messages = $message->getMessages($id);
                                 <button id="profile" type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                     <span class="absolute -inset-1.5"></span>
                                     <span class="sr-only">Open user menu</span>
-                                    <img class="h-9 w-9 rounded-full object-cover" src="<?php echo $image_src ?>" alt="">
+                                    <img class="h-9 w-9 rounded-full object-cover" src="<?php echo $image_srcs ?>" alt="">
                                 </button>
                             </div>
                             <div id="profile-menu" class="hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
@@ -144,6 +141,10 @@ $messages = $message->getMessages($id);
             $('#profile-menu').toggle();
         });
 
+        $('#message-button').click(function() {
+            $('#message-container').toggle();
+        });
+
         $("#dropdownNotificationButton").click(function() {
             $('#dropdownNotification').toggle();
         })
@@ -154,10 +155,21 @@ $messages = $message->getMessages($id);
             }
         });
 
-        $('#message-button').click(function() {
-            $('#message-container').toggle();
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#message-button').length && !$(event.target).closest('#message-container').length) {
+                $('#message-container').hide();
+            }
         });
-        
+
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#dropdownNotificationButton').length && !$(event.target).closest('#dropdownNotification').length) {
+                $('#dropdownNotification').hide();
+            }
+        });
+
+
+
+
         // ajax functions that calls the search.php to retrieve the data
         $("#search-navbar").on("input", function() {
             var query = $(this).val();
@@ -170,7 +182,9 @@ $messages = $message->getMessages($id);
                 url: "search.php",
                 method: "POST",
                 // pass the value, use the set value ex: query to retrieve in the $_POST() search.php
-                data: { query: query },
+                data: {
+                    query: query
+                },
                 success: function(data) {
                     // replace this 
                     $("#results").html(data);

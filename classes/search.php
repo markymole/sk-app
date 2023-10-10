@@ -5,19 +5,18 @@ require_once(dirname(__DIR__) .  '\config\database.php');
 class Search
 {
 
-    function searchUsers($searchTerm)
+    function searchUsers($searchTerm, $loggedInUserId)
     {
 
         $db = new Database();
 
         $query = "SELECT * FROM users 
-        WHERE username LIKE ? 
-        OR first_name LIKE ? 
-        OR last_name LIKE ?
+        WHERE (username LIKE ? OR first_name LIKE ? OR last_name LIKE ?)
+        AND id != ?
         LIMIT 5"; // Use a parameter for the LIMIT        
 
         $param = '%' . $searchTerm . '%';
-        $params = [$param, $param, $param];
+        $params = [$param, $param, $param, $loggedInUserId];
 
         $result = $db->read($query, $params);
 

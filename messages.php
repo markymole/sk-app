@@ -66,15 +66,15 @@ if ($user_data) {
                     <hr class="mt-4">
                 </div>
                 <div id="active-conversations" class="p-3">
-                    <div id="conversation-item" class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                    <!-- <div id="conversation-item" class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
                         <div class="w-10 h-10 bg-gray-300 rounded-full mr-3">
                             <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-10 h-10 rounded-full">
                         </div>
-                        <!-- <div class="flex-1">
+                        <div class="flex-1">
                             <h2 class="text-base font-semibold">Alice</h2>
                             <p class="text-sm text-gray-600">Hoorayy!!</p>
-                        </div> -->
-                    </div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -100,7 +100,7 @@ if ($user_data) {
                             <button id="send-message-btn" class="inline-flex items-center justify-center px-6 py-1.5 mr-3 text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">Send</button>
                         </div>
                     </div>
-                    <div id="no-chats-message" class="px-4" style="display: none;">No chats selected.</div>
+                    <div id="no-chats-message" class="px-4 text-center py-80" style="display: none;">No chats selected.</div>
                 </div>
             </div>
         </div>
@@ -147,6 +147,7 @@ if ($user_data) {
     $(document).ready(function() {
         var messages = [];
         updateMessageContainer(messages);
+        loadConversationUsers();
 
         function getReceiverIdFromURL() {
             const params = new URLSearchParams(window.location.search);
@@ -177,13 +178,15 @@ if ($user_data) {
             var chatContainer = $('#chat-messages');
             var noChatsMessage = $('#no-chats-message');
 
+            loadConversationUsers();
+
             noChatsMessage.hide();
             chatContainer.show()
 
             // Load user information and conversation messages in parallel using Promise.all
             Promise.all([
                     loadUserInformation(receiverId),
-                    loadMessages(receiverId)
+                    loadMessages(receiverId),
                 ])
                 .then(function([userInfo, messages]) {
                     var userInfo = JSON.parse(userInfo);
@@ -255,6 +258,45 @@ if ($user_data) {
             });
         }
 
+        function loadConversationUsers() {
+            $.ajax({
+                type: 'GET',
+                url: './controllers/get_active_conversations.php',
+                success: function(users) {
+                    var activeConversations = $('#active-conversations');
+                    activeConversations.empty();
+
+                    var users = JSON.parse(users);
+
+                    if (users.length === 0) {
+                        activeConversations.append('<p class="text-gray-700">No active conversations.</p>');
+                    } else {
+                        users.forEach(function(user) {
+                            var conversationItem = $('<div>')
+                                .addClass('conversation-item flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md')
+                                .attr('data-receiver-id', user.receiver_id)
+
+                            var userImage = $('<div>')
+                                .addClass('w-10 h-10 bg-gray-300 rounded-full mr-3')
+                                .html('<img src="' + user.image_src + '" alt="User Avatar" class="w-10 h-10 rounded-full">');
+
+                            var userInfo = $('<div>').addClass('flex-1');
+                            $('<h2>').addClass('text-base font-semibold').text(user.receiver_first_name + ' ' + user.receiver_last_name).appendTo(userInfo);
+                            $('<p>').addClass('text-sm text-gray-600').text(user.last_message.message).appendTo(userInfo);
+
+                            userImage.appendTo(conversationItem);
+                            userInfo.appendTo(conversationItem);
+
+                            conversationItem.appendTo(activeConversations);
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading conversation users: ' + error);
+                }
+            });
+        }
+
         const messagesContainer = document.getElementById('messages');
         messagesContainer.onmouseenter = () => {
             messagesContainer.classList.add("active");
@@ -275,7 +317,7 @@ if ($user_data) {
             var receiverLname = $(this).data('receiver-lname');
             var receiverImage = $(this).data('receiver-image');
 
-            var conversationUrl = 'message.php?id=' + receiverId;
+            var conversationUrl = 'messages.php?id=' + receiverId;
 
             window.history.pushState({
                 receiver_id: receiverId
@@ -298,7 +340,13 @@ if ($user_data) {
             var receiverBarangay = $(this).data('receiver-barangay');
             var receiverFname = $(this).data('receiver-fname');
             var receiverLname = $(this).data('receiver-lname');
-            var receiverImage = $(this).data('receiver-image');
+            var receiverImage = $(this).data('receiver-image')
+
+            var conversationUrl = 'messages.php?id=' + receiverId;
+
+            window.history.pushState({
+                receiver_id: receiverId
+            }, receiverFname + ' ' + receiverLname, conversationUrl);
 
             $('#receiver_img').attr('src', receiverImage);
             $('#receiver_name').text(receiverFname + ' ' + receiverLname);
@@ -397,7 +445,7 @@ if ($user_data) {
                     var results = JSON.parse(data);
 
                     if (results.length === 0) {
-                        messageSearchResults.html("<p class='px-4 py-2 text-gray-700'>No users found.</p>");
+                        messageSearchResults.html("<p class='px-2 py-2 text-gray-700'>No users found.</p>");
                     } else {
                         results.forEach(function(result) {
                             // Create a list item for each result and append it to the container
