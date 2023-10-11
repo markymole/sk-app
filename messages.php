@@ -41,16 +41,17 @@ if ($user_data) {
 </head>
 
 <body>
-    <div class="bg-gray-900 min-h-screen">
-        <?php include(__DIR__ . '/components/profile_nav.php'); ?>
+    <div class="bg-gray-900 h-screen overflow-hidden flex flex-col">
+        <?php include(__DIR__ . '/components/nav.php'); ?>
 
-        <div class="container flex flex-col bg-white rounded-lg lg:flex-row mt-10 w-full lg:max-w-7xl mx-auto h-full">
-            <div id="left-section" class="w-full lg:w-1/4 border-r">
-                <div class=" rounded-t-lg text-gray-700 px-4 py-3.5 border-b">
-                    <h3 class="font-semibold text-lg">Sk Webby App Chat</h3>
-                </div>
-
-                <div class="mt-4 px-3">
+        <div class="flex h-screen overflow-hidden w-full mx-auto">
+            <!-- Sidebar -->
+            <div class="fixed h-fit w-full lg:relative h-full lg:w-1/4 bg-white border-r border-gray-300">
+                <!-- Sidebar Header -->
+                <header class="p-4 border-b border-t flex justify-between items-center text-gray-700 px-8">
+                    <h1 class="text-xl font-semibold">Messages</h1>
+                </header>
+                <div class="mt-4 px-6">
                     <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -60,65 +61,50 @@ if ($user_data) {
                         </div>
                         <input type="search" id="message-search" class="block w-full px-4 py-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required>
                     </div>
-                    <div id="message-search-results" class="mt-2">
+                    <div id="message-search-results" class="">
 
                     </div>
-                    <hr class="mt-4">
                 </div>
-                <div id="active-conversations" class="p-3">
-                    <!-- <div id="conversation-item" class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                        <div class="w-10 h-10 bg-gray-300 rounded-full mr-3">
-                            <img src="https://placehold.co/200x/ffa8e4/ffffff.svg?text=ʕ•́ᴥ•̀ʔ&font=Lato" alt="User Avatar" class="w-10 h-10 rounded-full">
-                        </div>
-                        <div class="flex-1">
-                            <h2 class="text-base font-semibold">Alice</h2>
-                            <p class="text-sm text-gray-600">Hoorayy!!</p>
-                        </div>
-                    </div> -->
+                <div id="active-conversations" class="py-4 px-6">
+
                 </div>
             </div>
 
-            <div id="right-section" class="w-full px-3 lg:px-0 lg:w-3/4">
-                <div id="chat-container" class="py-2">
-                    <div id="chat-messages" class="hidden">
-                        <div id="user-info" class="p-4 flex gap-4 items-center border-b">
-                            <img id="receiver_img" class="w-12 h-12 rounded-full"></img>
-                            <div>
-                                <p id="receiver_name" class="font-semibold text-gray-800"></p>
-                                <span id="receiver_barangay" class="text-base text-gray-600"></span>
-                            </div>
-                        </div>
-                        <div id="conversation">
-                            <div class="w-full px-5 flex flex-col h-full justify-between">
-                                <div id="messages" class="flex flex-col mt-5 overflow-y-scroll">
+            <!-- Main Chat Area -->
+            <div id="chat-messages" class="flex-1 relative">
+                <!-- Chat Header -->
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border-t py-4 px-4 gap-2 flex flew-row items-center">
-                            <input id="message-input" class="w-full bg-gray-white py-1.5 px-3 rounded-lg border" type="text" placeholder="type your message here..." />
-                            <button id="send-message-btn" class="inline-flex items-center justify-center px-6 py-1.5 mr-3 text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">Send</button>
-                        </div>
+                <header id="user-info" class="bg-white border-t border-b p-4 text-gray-700 flex gap-4 items-center">
+                    <div id="back-to-conversation" class="bg-white text-gray-600 rounded-lg cursor-pointer hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                        </svg>
                     </div>
-                    <div id="no-chats-message" class="px-4 text-center py-80" style="display: none;">No chats selected.</div>
+                    <img id="receiver_img" class="w-10 h-10 lg:w-12 lg:h-12 rounded-full"></img>
+                    <div>
+                        <h1 id="receiver_name" class="text-sm font-semibold text-gray-800"></h1>
+                        <p id="receiver_barangay" class="text-xs text-gray-600"></p>
+                    </div>
+                </header>
+
+                <!-- Chat Messages -->
+                <div id="conversation" class="bg-white h-screen overflow-y-auto p-4 pb-36">
+                    <!-- Incoming Message -->
+                    <div id="messages" class="flex flex-col mt-5 mb-20 lg:mb-24">
+
+                    </div>
                 </div>
+
+                <!-- Chat Input -->
+                <footer class="bg-white border-t border-gray-300 p-4 absolute bottom-0 w-full">
+                    <div class="flex items-center">
+                        <input id="message-input" class="w-full bg-gray-white py-1.5 px-3 rounded-lg border" type="text" placeholder="type your message here..." />
+                        <button id="send-message-btn" class="inline-flex items-center justify-center px-6 py-1.5 mr-3 text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">Send</button>
+                    </div>
+                </footer>
             </div>
         </div>
 </body>
-
-<style>
-    /* Standard scrollbar styles for Firefox and Edge */
-    #messages {
-        scrollbar-width: thin;
-        height: 50vh;
-        padding: 0px 4px;
-    }
-
-    #messages::-webkit-scrollbar-corner {
-        display: none;
-        /* Hide scrollbar corner in WebKit browsers */
-    }
-</style>
 
 </html>
 <style>
@@ -145,6 +131,24 @@ if ($user_data) {
 
 <script>
     $(document).ready(function() {
+
+        const chatMessages = $('#chat-messages');
+        chatMessages.hide();
+
+        const backToConversationButton = $('#back-to-conversation');
+        backToConversationButton.hide();
+
+        backToConversationButton.click(function() {
+            // Hide the chat-messages div and the back button
+            chatMessages.hide();
+            backToConversationButton.hide();
+
+            // Hide the chat-messages on mobile when going back to active conversation
+            if ($(window).width() <= 768) {
+                $('#active-conversations').show();
+            }
+        });
+
         var messages = [];
         updateMessageContainer(messages);
         loadConversationUsers();
@@ -180,8 +184,13 @@ if ($user_data) {
 
             loadConversationUsers();
 
-            noChatsMessage.hide();
-            chatContainer.show()
+            if ($(window).width() >= 768) {
+                noChatsMessage.hide();
+                chatContainer.show()
+            }
+
+            // noChatsMessage.hide();
+            // chatContainer.show()
 
             // Load user information and conversation messages in parallel using Promise.all
             Promise.all([
@@ -196,11 +205,18 @@ if ($user_data) {
                     $('#receiver_name').text(userInfo.first_name + ' ' + userInfo.last_name);
                     $('#receiver_barangay').text(userInfo.barangay);
 
+                    $('#mobile-receiver_img').attr('src', userInfo.image_src);
+                    $('#mobile-receiver_name').text(userInfo.first_name + ' ' + userInfo.last_name);
+                    $('#mobile-receiver_barangay').text(userInfo.barangay);
+
                     $('#messages').empty();
+                    $('#mobile-messages').empty();
+
 
                     if (messages.length === 0) {
                         // If there are no messages, display a "No messages found" message
                         $('#messages').append('<div class="text-center text-gray-500 py-4">No messages found.</div>');
+                        $('#mobile-messages').append('<div class="text-center text-gray-500 py-4">No messages found.</div>');
                     } else {
                         messages.forEach(function(message) {
                             var messageElement = $('<div>').addClass('flex justify-' + (message.isSender ? 'end' : 'start') + ' mb-4');
@@ -214,6 +230,8 @@ if ($user_data) {
 
                             // Append the message element to the messages container
                             messageElement.appendTo($('#messages'));
+                            messageElement.appendTo($('#mobile-messages'));
+
                         });
                     }
                 })
@@ -273,7 +291,7 @@ if ($user_data) {
                     } else {
                         users.forEach(function(user) {
                             var conversationItem = $('<div>')
-                                .addClass('conversation-item flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md')
+                                .addClass('conversation-item flex items-center mb-2 cursor-pointer hover:bg-gray-100 p-2 rounded-md')
                                 .attr('data-receiver-id', user.receiver_id)
 
                             var userImage = $('<div>')
@@ -306,7 +324,7 @@ if ($user_data) {
         }
 
         function scrollMessagesToBottom() {
-            var messageContainer = $('#messages');
+            var messageContainer = $('#conversation');
             messageContainer.scrollTop(messageContainer[0].scrollHeight);
         }
 
@@ -331,6 +349,11 @@ if ($user_data) {
             $('#active-conversations').show();
             $("#message-search-results").html("");
 
+            chatMessages.show();
+            if ($(window).width() <= 768) {
+                backToConversationButton.show();
+            }
+
             console.log('conversation id:', receiverId);
             loadConversationMessages(receiverId);
         });
@@ -351,6 +374,13 @@ if ($user_data) {
             $('#receiver_img').attr('src', receiverImage);
             $('#receiver_name').text(receiverFname + ' ' + receiverLname);
             $('#receiver_barangay').text(receiverBarangay);
+
+            chatMessages.show();
+            if ($(window).width() <= 768) {
+                backToConversationButton.show();
+            }
+
+
 
             console.log('conversation id:', receiverId);
             loadConversationMessages(receiverId);
@@ -445,12 +475,12 @@ if ($user_data) {
                     var results = JSON.parse(data);
 
                     if (results.length === 0) {
-                        messageSearchResults.html("<p class='px-2 py-2 text-gray-700'>No users found.</p>");
+                        messageSearchResults.html("<p class='px-4 py-6 text-gray-700'>No users found.</p>");
                     } else {
                         results.forEach(function(result) {
                             // Create a list item for each result and append it to the container
                             var userContainer = $("<div>")
-                                .addClass("users-item flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md")
+                                .addClass("users-item flex items-center px-2 mt-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md")
                                 .attr("data-receiver-id", result.id)
                                 .attr("data-receiver-fname", result.first_name)
                                 .attr("data-receiver-lname", result.last_name)
@@ -459,7 +489,7 @@ if ($user_data) {
 
                             // Create an image element for the user's image
                             var userImage = $("<img>")
-                                .addClass("w-8 h-8 rounded-full")
+                                .addClass("w-10 h-10 rounded-full")
                                 .attr("src", result.image_src) // Set the image source
                                 .attr("alt", "User Avatar"); // Provide alt text for accessibility
 

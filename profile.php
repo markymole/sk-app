@@ -45,12 +45,11 @@ if ($user_data) {
 
     <body>
         <div id="timeline" class="bg-gray-900 min-h-screen">
-            <?php include(__DIR__ . '/components/profile_nav.php'); ?>
+            <?php include(__DIR__ . '/components/nav.php'); ?>
 
             <?php include(__DIR__ . '/templates/cover.php'); ?>
 
             <!-- profile content -->
-
             <div class="px-3 lg:px-0 max-w-5xl mx-auto mt-4">
                 <div class="bg-white border border-gray-300 rounded-lg ">
                     <!-- About section -->

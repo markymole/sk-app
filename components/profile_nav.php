@@ -4,7 +4,7 @@ $messages = $message->getUsersWithLastMessage($id);
 ?>
 <header>
     <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <div class="flex flex-wrap justify-between items-center w-full">
             <a href="home.php" class="flex items-center">
                 <img src="./assets/logo/logo-v1.png" class="mr-3 object-cover h-12 w-36 lg:h-16 lg:w-52 " alt="SK Webby App Logo" />
             </a>
@@ -32,7 +32,17 @@ $messages = $message->getUsersWithLastMessage($id);
 
                     <div class="inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <div class="relative">
-                            <button id="message-button" type="button" class="mr-2 relative rounded-full bg-transparent p-1 text-gray-500 hover:text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <a href="messages.php" class="flex lg:hidden mr-2 relative rounded-full bg-transparent p-1 text-gray-500 hover:text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">View messages</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                    <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+                                    <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+                                </svg>
+
+                            </a>
+
+                            <button id="message-button" type="button" class="hidden lg:flex mr-2 relative rounded-full bg-transparent p-1 text-gray-500 hover:text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">View messages</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -42,7 +52,7 @@ $messages = $message->getUsersWithLastMessage($id);
 
                             </button>
 
-                            <div id="message-container" class="hidden right-0 absolute">
+                            <div id="message-container" class="hidden right-0 absolute z-50">
                                 <?php include './templates/message_templates.php' ?>
                             </div>
                         </div>
