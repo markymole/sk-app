@@ -70,19 +70,22 @@ class Messages
     {
         $db = new Database();
 
-        $query = "SELECT m1.sender_id, m1.receiver_id, m1.message, m1.created_at,
-             u.username AS receiver_username, u.id AS receiver_id,
-             u.first_name AS receiver_first_name, u.last_name AS receiver_last_name,
-             u.gender AS receiver_gender,
-             MAX(m1.created_at) AS last_message_time
-          FROM messages m1
-          LEFT JOIN users u ON (m1.receiver_id = u.id)
-          WHERE (m1.sender_id = ? OR m1.receiver_id = ?)
-          AND u.id != ?
-          GROUP BY u.id 
-          ORDER BY last_message_time DESC";
+        $query = "SELECT 
+            IF(m1.sender_id = ?, m1.receiver_id, m1.sender_id) AS other_user_id,
+            u.username AS receiver_username,
+            u.id AS receiver_id,
+            u.first_name AS receiver_first_name,
+            u.last_name AS receiver_last_name,
+            u.gender AS receiver_gender,
+            MAX(m1.created_at) AS last_message_time,
+            MAX(m1.message) AS last_message
+        FROM messages m1
+        LEFT JOIN users u ON (u.id = IF(m1.sender_id = ?, m1.receiver_id, m1.sender_id))
+        WHERE (m1.sender_id = ? OR m1.receiver_id = ?)
+        GROUP BY other_user_id
+        ORDER BY last_message_time DESC";
 
-        $params = [$userId, $userId, $userId];
+        $params = [$userId, $userId, $userId, $userId];
 
         $result = $db->read($query, $params);
 
