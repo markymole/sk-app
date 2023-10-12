@@ -7,9 +7,17 @@ $user = new Users();
 $image = new Images();
 $message = new Messages();
 
-$posts = $post->get_all_posts();
+// $posts = $post->get_all_posts();
 
-$user_data = $user->authenticate($_SESSION['user_id']);
+// $user_data = $user->authenticate($_SESSION['user_id']);
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
+} else {
+    // If not provided, use the user_id from the session
+    $user_id = $_SESSION['user_id'];
+}
+
+$user_data = $user->getLoggedInUserInfo($user_id);
 
 if ($user_data) {
     $id = $user_data['id'];
@@ -60,15 +68,15 @@ if ($user_data) {
                     <!-- Followers section -->
                     <div id="followers-section" style="display: none">
                         <!-- Content of the Followers section -->
-                        <h1>followers</h1>
+                        <?php include './components/profile/followers-section.php' ?>
+
 
                     </div>
 
                     <!-- Following section -->
                     <div id="following-section" style="display: none">
                         <!-- Content of the Following section -->
-                        <h1>following</h1>
-
+                        <?php include './components/profile/following-section.php' ?>
                     </div>
 
                     <!-- Photos section -->

@@ -3,11 +3,12 @@ require_once './config/autoload.php';
 
 $images = new Images();
 
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-
-    $profiles = $images->getUserProfileImages($userId);
+if (isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
+    $profiles = $images->getUserProfileImages($user_id);
 } else {
+    $user_id = $_SESSION['user_id'];
+    $profiles = $images->getUserProfileImages($user_id);
 }
 
 ?>

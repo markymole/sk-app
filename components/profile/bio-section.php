@@ -18,19 +18,24 @@
         const editButton = $('#edit-button');
         const saveButton = $('#save-button');
         const cancelButton = $('#cancel-button');
+        const isCurrentUserProfile = <?php echo ($user_id == $_SESSION['user_id']) ? 'true' : 'false'; ?>;
 
         bioParagraph.css('display', 'block');
         bioTextarea.css('display', 'none');
         saveButton.css('display', 'none');
         cancelButton.css('display', 'none');
 
-        editButton.click(function() {
-            bioParagraph.css('display', 'none');
-            bioTextarea.css('display', 'block');
-            saveButton.css('display', 'inline');
-            cancelButton.css('display', 'inline');
-            editButton.css('display', 'none');
-        });
+        if (isCurrentUserProfile) {
+            editButton.click(function() {
+                bioParagraph.css('display', 'none');
+                bioTextarea.css('display', 'block');
+                saveButton.css('display', 'inline');
+                cancelButton.css('display', 'inline');
+                editButton.css('display', 'none');
+            });
+        } else {
+            editButton.hide(); // Display a message or take another action
+        }
 
         saveButton.click(function() {
             const updatedBio = bioTextarea.val();

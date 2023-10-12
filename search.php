@@ -12,7 +12,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query = $_POST['query'];
 
         $results = $search->searchUsers($query, $logged_user);
-        echo json_encode($results);
+
+        $output = [];
+
+        foreach ($results as $result) {
+            // Generate a link to the user's profile page
+            $profileLink = 'profile.php?user_id=' . $result['id'];
+
+            // Create an array with the user's data and the profile link
+            $userResult = [
+                'id' => $result['id'],
+                'first_name' => $result['first_name'],
+                'last_name' => $result['last_name'],
+                'image_src' => $result['image_src'],
+                'profile_link' => $profileLink,
+            ];
+
+            $output[] = $userResult;
+        }
+
+        echo json_encode($output);
     }
 
     if (isset($_POST['message_search'])) {

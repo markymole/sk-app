@@ -61,7 +61,11 @@ $cover_image = $image->getUserProfileImage($id, $gender);
                             <a href="#" id="photos-link" class="text-gray-700 dark:text-white hover:underline">Photos</a>
                         </li>
                         <li>
-                            <a href="#" id="settings-link" class="text-gray-700 dark:text-white hover:underline">Settings</a>
+                            <?php if ($user_id == $_SESSION['user_id']) { ?>
+                                <a href="#" id="settings-link" class="text-gray-700 dark:text-white hover:underline">Settings</a>
+                            <?php } else { ?>
+                                <span class="visibility: hidden;"></span>
+                            <?php } ?>
                         </li>
                     </ul>
                 </div>
