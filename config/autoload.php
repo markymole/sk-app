@@ -14,3 +14,4 @@ include(dirname(__DIR__)  . '/classes/comments.php');
 include(dirname(__DIR__)  . '/classes/likes.php');
 include(dirname(__DIR__)  . '/classes/search.php');
 include(dirname(__DIR__)  . '/classes/messages.php');
+include(dirname(__DIR__)  . '/classes/follow.php');

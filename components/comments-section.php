@@ -8,6 +8,9 @@ if (!empty($post_comment)) {
         $image_url = $comment['image_src'];
         $created_at = $comment['created_at'];
         $comment_author = $comment['comment_author'];
+        $author_gender = $comment['gender'];
+
+        $author_image_src = $image->getUserProfileImage($comment_author, $author_gender);
 
 
         $likes = $comment['like_count'];
@@ -48,7 +51,9 @@ if (!empty($post_comment)) {
             <div class="rounded-xl border p-5 shadow-sm w-full bg-white" id="comment-container">
                 <div class="flex items-center w-full items-center justify-between border-b pb-3">
                     <div class="flex items-center space-x-3">
-                        <img class="h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                        <a href="profile.php?user_id=$comment_author">     
+                            <img class="h-9 w-9 rounded-full" src="$author_image_src" alt="">
+                        </a>
                         <div>                        
                             <div class="text-base font-semibold text-slate-700">$first_name $last_name</div>
                             <div class="flex items-center space-x-8">

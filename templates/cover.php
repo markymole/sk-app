@@ -8,7 +8,7 @@ $cover_image = $image->getUserProfileImage($id, $gender);
         <div class="flex flex-col gap-2 lg:flex-row lg:items-baseline px-8 md:px-10 pt-6">
             <div class="flex items-center gap-4">
                 <div class="relative">
-                    <img src="<?php echo $cover_image ?>" class="h-32 w-32 border-4 object-cover border-white rounded-full cursor-pointer" id="profileImage">
+                    <img src="<?php echo $cover_image ?>" class="w-24 h-24 lg:h-32 lg:w-32 border-4 object-cover border-white rounded-full cursor-pointer" id="profileImage">
                     <div class="absolute top-30 w-56 bg-white border border-gray-300 rounded-lg shadow-md hidden" id="profilePictureOptions">
                         <ul class="py-2">
                             <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="uploadProfilePicture">Upload Profile Picture</li>
@@ -27,18 +27,31 @@ $cover_image = $image->getUserProfileImage($id, $gender);
             </div>
             <div class="flex-1 flex flex-col items-center lg:items-end justify-end mt-2">
                 <div class="flex items-center mt-2">
-                    <button class="flex gap-2 items-center justify-center px-6 py-1 lg:py-1.5 mr-3 text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">
+
+                    <?php
+                    if ($user_id !== $_SESSION['user_id']) {
+                        echo <<<HTML
+                    <button id="follow-user" class="flex gap-2 items-center justify-center px-4 lg:px-6 py-1 lg:py-1.5 mr-3 text-sm lg:text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900" data-user-id="$user_id">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
                         </svg>
-                        <span>Follow</span>
-                    </button>
-                    <button class="flex gap-2 items-center justify-center px-6 py-1 lg:py-1.5 mr-3 text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">
+HTML;
+                    ?>
+
+                        <span><?php echo ($follow->isFollowing($_SESSION['user_id'], $user_id) ? 'Following' : 'Follow'); ?></span>
+                        </button>
+                    <?php
+                        echo <<<HTML
+                    <a href="messages.php?id=$user_id" class="flex gap-2 items-center justify-center px-4 lg:px-6 py-1 lg:py-1.5 mr-3 text-sm lg:text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"></path>
                         </svg>
                         <span>Message</span>
-                    </button>
+                    </a>
+HTML;
+                    }
+                    ?>
+
                 </div>
             </div>
         </div>
@@ -64,7 +77,7 @@ $cover_image = $image->getUserProfileImage($id, $gender);
                             <?php if ($user_id == $_SESSION['user_id']) { ?>
                                 <a href="#" id="settings-link" class="text-gray-700 dark:text-white hover:underline">Settings</a>
                             <?php } else { ?>
-                                <span class="visibility: hidden;"></span>
+                                <a href="#" id="settings-link" class="hidden">Settings</a>
                             <?php } ?>
                         </li>
                     </ul>
@@ -118,10 +131,49 @@ $cover_image = $image->getUserProfileImage($id, $gender);
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#follow-user').on('click', handleFollowButtonClick);
+
+        function handleFollowButtonClick() {
+            const followButton = $(this);
+            const user_id = followButton.data('user-id');
+
+            console.log('clicked user id', user_id);
+
+            const isFollowing = followButton.hasClass('following');
+
+            $.ajax({
+                type: 'POST',
+                url: './controllers/follow_user.php',
+                data: {
+                    user_id: user_id,
+                    follow: !isFollowing,
+                },
+                success: function(response) {
+
+                    var response = JSON.parse(response);
+
+                    if (response.success) {
+                        // Toggle the "following" class and update the button text
+                        followButton.toggleClass('following');
+                        followButton.text(isFollowing ? 'Follow' : 'Following');
+                    } else {
+                        console.error('Follow action failed:', response.error);
+                    }
+                },
+                error: function(error) {
+                    console.error('AJAX request failed:', error);
+                }
+            });
+        }
+    });
+
+
     const profileImageInput = document.getElementById('profileImageInput');
     const selectedProfileImage = document.getElementById('selectedProfileImage');
     const profileImagePreview = document.getElementById('profileImagePreview');
     const uploadContainer = document.getElementById('upload-container');
+    const followButton = document.getElementById('follow-user');
 
     function toggleProfilePictureOptions() {
         const dropdown = document.getElementById('profilePictureOptions');

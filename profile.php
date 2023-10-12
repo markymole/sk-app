@@ -6,18 +6,21 @@ $post = new Posts();
 $user = new Users();
 $image = new Images();
 $message = new Messages();
+$follow = new Follow();
+
 
 // $posts = $post->get_all_posts();
 
 // $user_data = $user->authenticate($_SESSION['user_id']);
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
+    $user_data = $user->getLoggedInUserInfo($user_id);
 } else {
     // If not provided, use the user_id from the session
     $user_id = $_SESSION['user_id'];
+    $user_data = $user->authenticate($user_id);
 }
 
-$user_data = $user->getLoggedInUserInfo($user_id);
 
 if ($user_data) {
     $id = $user_data['id'];

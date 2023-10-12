@@ -55,16 +55,19 @@ HTML;
                     <div class="rounded-xl border p-5 shadow-md bg-white w-full">
                         <div class="flex w-full items-center justify-between border-b pb-3">
                             <div class="flex items-center space-x-4">
-                                <img class="h-9 w-9 rounded-full" src="$image_src" alt="">
-                                <div>
+                                <a href="profile.php?user_id=$author_id">                                
+                                    <img class="h-9 w-9 rounded-full" src="$image_src" alt="">
+                                </a>
+                                <div class="">
                                     <div class="text-sm lg:text-lg font-bold text-gray-800">$post_author</div>
-                                    <p class="text-xs lg:text-sm text-gray-700">$role</p>
+                                    <p class="hidden lg:block text-xs lg:text-sm text-gray-700">$role</p>
+                                    <div class="block lg:hidden text-xs text-neutral-500">$formatted_date</div>
                                 </div>
                                
                             </div>
                             <div class="flex items-center space-x-8">
-                                <button class="rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold">$barangay</button>
-                                <div class="text-xs text-neutral-500">$formatted_date</div>
+                                <button class="hidden lg:block rounded-2xl border bg-neutral-100 px-3 py-1 text-xs font-semibold ">$barangay</button>
+                                <div class="hidden lg:block text-xs text-neutral-500">$formatted_date</div>
                                 <!-- buttons -->
                                 <div class="flex justify-end space-x-2 relative">
 HTML;

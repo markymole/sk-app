@@ -38,12 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message_search = $_POST['message_search'];
         $results = $search->searchUsers($message_search, $logged_user);
 
-        foreach ($results as &$user) {
-            // Assuming $user['id'] contains the user's ID and $user['gender'] contains the user's gender
-            $image_src = $image->getUserProfileImage($user['id'], $user['gender']);
-            $user['image_src'] = $image_src;
-        }
-
         echo json_encode($results);
     }
 }

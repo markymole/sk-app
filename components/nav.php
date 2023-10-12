@@ -4,7 +4,7 @@ $message = new Messages();
 
 if ($user_data) {
     $image_src = $image->getUserProfileImage($_SESSION['user_id'], $gender);
-    $messages = $message->getUsersWithLastMessage($id);
+    $messages = $message->getUsersWithLastMessage($_SESSION['user_id']);
 }
 ?>
 <header>
@@ -42,7 +42,7 @@ HTML;
                                 <span class="sr-only">Search icon</span>
                             </div>
                             <input type="text" id="search-navbar" class="block w-full p-2 px-32 pl-10 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
-                            <div id="results" class="block w-full absolute bg-white p-2 rounded-lg border-2 " style="display: none;"></div>
+                            <div id="results" class="block w-full absolute z-50 bg-white p-2 rounded-lg border-2 " style="display: none;"></div>
                         </div>
                         <div class="inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <div class="relative">
