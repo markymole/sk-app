@@ -1,6 +1,8 @@
 <?php
 
 $cover_image = $image->getUserProfileImage($id, $gender);
+
+
 ?>
 
 <div class="px-3 lg:px-0 max-w-5xl mx-auto mt-10">
@@ -29,16 +31,24 @@ $cover_image = $image->getUserProfileImage($id, $gender);
                 <div class="flex items-center mt-2">
 
                     <?php
+                    $buttonClass = '';
+
+                    if ($follow->isFollowing($_SESSION['user_id'], $user_id)) {
+                        $buttonClass .= 'following flex gap-2 items-center justify-center px-4 lg:px-6 py-1 lg:py-1.5 mr-3 text-sm lg:text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900';
+                    } else {
+                        $buttonClass .= 'flex gap-2 items-center justify-center px-4 lg:px-6 py-1 lg:py-1.5 mr-3 text-sm lg:text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900';
+                    }
+
                     if ($user_id !== $_SESSION['user_id']) {
                         echo <<<HTML
-                    <button id="follow-user" class="flex gap-2 items-center justify-center px-4 lg:px-6 py-1 lg:py-1.5 mr-3 text-sm lg:text-base text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900" data-user-id="$user_id">
+                    <button id="follow-user" class="$buttonClass" data-user-id="$user_id">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
                         </svg>
 HTML;
                     ?>
 
-                        <span><?php echo ($follow->isFollowing($_SESSION['user_id'], $user_id) ? 'Following' : 'Follow'); ?></span>
+                        <span id="follow-button-text"><?php echo ($follow->isFollowing($_SESSION['user_id'], $user_id) ? 'Following' : 'Follow'); ?></span>
                         </button>
                     <?php
                         echo <<<HTML
@@ -136,6 +146,7 @@ HTML;
 
         function handleFollowButtonClick() {
             const followButton = $(this);
+            const followButtonText = $('#follow-button-text');
             const user_id = followButton.data('user-id');
 
             console.log('clicked user id', user_id);
@@ -156,7 +167,7 @@ HTML;
                     if (response.success) {
                         // Toggle the "following" class and update the button text
                         followButton.toggleClass('following');
-                        followButton.text(isFollowing ? 'Follow' : 'Following');
+                        followButtonText.text(isFollowing ? 'Follow' : 'Following');
                     } else {
                         console.error('Follow action failed:', response.error);
                     }
