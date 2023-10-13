@@ -50,7 +50,7 @@ HTML;
             if ($archived === 0) {
 
                 echo <<<HTML
-            <div class="mt-6 w-full">
+            <div class="mt-6 w-full" id="post-$post_id">
                 <div class='flex items-center justify-center  '>
                     <div class="rounded-xl border p-5 shadow-md bg-white w-full">
                         <div class="flex w-full items-center justify-between border-b pb-3">

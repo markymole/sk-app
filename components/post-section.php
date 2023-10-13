@@ -30,7 +30,10 @@ if (!empty($post)) {
         <div class="bg-white mt-10 md:w-1/2 mx-auto rounded-xl">
             <div class="flex items-center justify-between px-6">
                 <div class="flex items-center space-x-3 mt-3 mb-2">
-                    <img class="h-9 w-9 rounded-full" src="<?php echo $image_src ?>" alt="">
+                    <a href="profile.php?user_id=<?php echo $author_id ?>">
+
+                        <img class="h-9 w-9 rounded-full" src="<?php echo $image_src ?>" alt="">
+                    </a>
                     <div>
                         <div class="text-base font-semibold text-slate-700"><?php echo $post_author ?></div>
                         <p class="hidden lg:block text-xs lg:text-sm text-gray-700"><?php echo $role ?></p>
@@ -44,11 +47,11 @@ if (!empty($post)) {
                     <div class="hidden lg:block items-center space-x-8 mr-6">
                         <div class="text-xs text-neutral-500"><?php echo $formatted_date ?></div>
                     </div>
-                    <button id="post-setting">
+                    <!-- <button id="post-setting">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-gray-700 w-6 h-6">
                             <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clip-rule="evenodd" />
                         </svg>
-                    </button>
+                    </button> -->
 
                     <div id="post-action" class="hidden top-6 absolute bg-white border border-gray-300 py-3 px-6 rounded-lg shadow-lg">
                         <button class="edit-post-btn text-gray-600 flex cursor-pointer items-center transition hover:text-slate-600">

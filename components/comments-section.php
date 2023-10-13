@@ -47,7 +47,7 @@ if (!empty($post_comment)) {
 
         // Generate HTML markup for each post
         echo <<<HTML
-        <div class='flex items-center justify-center w-full mx-auto mt-4 px-3 md:px-6'>
+        <div class='flex items-center justify-center w-full mx-auto mt-4 px-3 md:px-6' id="comment-$comment_id">
             <div class="rounded-xl border p-5 shadow-sm w-full bg-white" id="comment-container">
                 <div class="flex items-center w-full items-center justify-between border-b pb-3">
                     <div class="flex items-center space-x-3">
@@ -130,12 +130,15 @@ HTML;
                 </div>
                
             </div>
+            
         </div>
+        
        
         HTML;
     }
 } else {
 }
+include './templates/delete_comment_modal.php';
 ?>
 <script>
     $(document).ready(function() {
@@ -166,6 +169,19 @@ HTML;
                     console.error('AJAX Error: ' + error);
                 }
             });
+        });
+
+        document.querySelectorAll('.delete-comment-btn').forEach((deleteBtn) => {
+            deleteBtn.addEventListener('click', (event) => {
+                const commentId = event.currentTarget.dataset.commentId;
+
+                console.log('Edit clicked!');
+                console.log('comment id: ', commentId);
+
+                $('#deleteCommentId').val(commentId);
+
+                $('#deleteCommentModal').fadeIn();
+            })
         });
 
 

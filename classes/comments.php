@@ -45,6 +45,47 @@ class Comments
         return false;
     }
 
+    public function get_comment($comment_id)
+    {
+        $db = new Database();
+
+        $query = 'SELECT * FROM comments WHERE comment_id = ?';
+        $params = [$comment_id];
+
+        $result = $db->read($query, $params);
+
+        if ($result->num_rows === 1) {
+            // Fetch the post data
+            $post = $result->fetch_assoc();
+            return $post;
+        } else {
+            // Post not found
+            return null;
+        }
+    }
+
+    public function get_comments($parent_post)
+    {
+        $db = new Database();
+
+        $query = 'SELECT * FROM comments WHERE parent_post = ?';
+        $params = [$parent_post];
+
+        $result = $db->read($query, $params);
+
+        if ($result->num_rows > 0) {
+
+            $comments = [];
+            while ($row = $result->fetch_assoc()) {
+                $comments[] = $row;
+            }
+            return $comments;
+        } else {
+
+            return [];
+        }
+    }
+
     public function getCommentsWithLikes($post_id)
     {
         $db = new Database();
@@ -73,5 +114,29 @@ class Comments
         }
 
         return [];
+    }
+
+    public function delete_comment($comment_id, $comment_author)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM comments WHERE comment_id = ? AND comment_author = ?';
+
+        $params = [$comment_id, $comment_author];
+
+        $result = $db->save($query, $params);
+
+        return $result ? true : false;
+    }
+
+    public function delete_comments($parent_post)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM comments WHERE parent_post = ?';
+
+        $params = [$parent_post];
+
+        return $db->save($query, $params);
     }
 }

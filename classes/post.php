@@ -37,6 +37,19 @@ class Posts
         return $result ? true : false;
     }
 
+    public function delete_post($post_id, $author)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM posts WHERE post_id = ? AND author = ?';
+
+        $params = [$post_id, $author];
+
+        $result = $db->save($query, $params);
+
+        return $result ? true : false;
+    }
+
     public function get_all_posts()
     {
         $db = new Database();
@@ -140,8 +153,7 @@ class Posts
     {
         $db = new Database();
 
-        // Query to retrieve a specific post by ID
-        $query = 'SELECT * FROM posts WHERE id = ?';
+        $query = 'SELECT * FROM posts WHERE post_id = ?';
         $params = [$id];
 
         $result = $db->read($query, $params);

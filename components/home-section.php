@@ -215,17 +215,14 @@
             }
         }
 
-        // Event handler for post-setting-button click
         $('.post-setting-button').click(function() {
             var postId = $(this).data('key-setting');
             var postActionDiv = $('#post-action-' + postId);
 
-            // Toggle post-action visibility
             if (postActionDiv.is(':visible')) {
                 postActionDiv.hide();
                 activePostAction = null;
             } else {
-                // Close any previously active post-action
                 closeActivePostAction();
 
                 // Show the clicked post-action

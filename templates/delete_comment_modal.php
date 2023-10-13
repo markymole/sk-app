@@ -1,12 +1,12 @@
-<div class="modal2" id="deleteModal">
-    <div class="modal-content2 w-1/5 mx-auto rounded-lg">
-        <form action="" method="POST" enctype="multipart/form-data" id="deleteForm">
-            <input type="hidden" name="post_id" id="deletePostID" value="">
+<div class="comment-modal" id="deleteCommentModal">
+    <div class="comment-modal-content w-1/5 mx-auto rounded-lg">
+        <form action="" method="POST" enctype="multipart/form-data" id="deleteCommentForm">
+            <input type="hidden" name="comment-id" id="deleteCommentId" value="">
             <div class="bg-white mt-6 mx-auto flex flex-col text-gray-800 rounded-lg border-gray-300 p-4 shadow-sm w-full">
-                <p class="mb-4 font-medium">Delete this post? </p>
+                <p class="mb-4 font-medium">Delete this comment? </p>
 
                 <div class="mt-6 buttons mx-auto flex gap-2">
-                    <button id="closeDeleteModal" type="button" class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto rounded">Cancel</button>
+                    <button id="closeCommentModal" type="button" class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto rounded">Cancel</button>
                     <button type="submit" class="inline-flex items-center justify-center px-6 py-1 lg:py-1.5 mr-3 text-base text-center text-white rounded-lg bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">Delete</button>
                 </div>
             </div>
@@ -15,7 +15,7 @@
 </div>
 
 <style>
-    .modal2 {
+    .comment-modal {
         display: none;
         position: fixed;
         z-index: 1;
@@ -26,7 +26,7 @@
         background-color: rgba(0, 0, 0, 0.7);
     }
 
-    .modal-content2 {
+    .comment-modal-content {
         position: absolute;
         width: 20%;
         min-height: 20vh;
@@ -42,46 +42,36 @@
 <script>
     $(document).ready(function() {
 
-        // functions for the edit button
-        $('.delete-post-btn').click(function(e) {
-            e.preventDefault();
-            var postId = $(this).data('post-id');
-
-            $('#deletePostID').val(postId);
-
-            $('#deleteModal').fadeIn();
-        });
-
         // Close the edit modal when clicking the close button
-        $('#closeDeleteModal').click(function() {
-            $('#deleteModal').fadeOut();
+        $('#closeCommentModal').click(function() {
+            $('#deleteCommentModal').fadeOut();
         });
 
         // Close the edit modal when clicking outside the modal content
         $(window).click(function(e) {
-            if (e.target == $('#deleteModal')[0]) {
-                $('#deleteModal').fadeOut();
+            if (e.target == $('#deleteCommentModal')[0]) {
+                $('#deleteCommentModal').fadeOut();
             }
         });
 
-        $('#deleteForm').submit(function(e) {
+        $('#deleteCommentForm').submit(function(e) {
             e.preventDefault();
-            const postId = $('#deletePostID').val();
+            const comment_id = $('#deleteCommentId').val();
 
             $.ajax({
                 type: 'POST',
-                url: './controllers/delete_post.php',
+                url: './controllers/delete_comment.php',
                 data: {
-                    post_id: postId
+                    comment_id: comment_id
                 },
                 success: function(response) {
 
                     var response = JSON.parse(response);
 
                     if (response.success) {
-                        $('#deleteModal').fadeOut();
+                        $('#deleteCommentModal').fadeOut();
 
-                        $('#post-' + postId).remove();
+                        $('#comment-' + comment_id).remove();
                     } else {
                         console.error('Post deletion failed:', response.message);
                     }
