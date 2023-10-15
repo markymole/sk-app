@@ -130,6 +130,25 @@ class Users
         }
     }
 
+    public function getBarangayUsers($barangay, $user)
+    {
+        $query = 'SELECT * FROM users WHERE barangay = ? AND id != ?';
+        $params = [$barangay, $user];
+
+        $result = $this->db->read($query, $params);
+
+        if ($result) {
+            $users = [];
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row;
+            }
+            return $users;
+        } else {
+            return false;
+        }
+    }
+
+
 
     public function updateUserInfo($userId, $first_name, $last_name, $username, $barangay, $role, $gender, $email)
     {

@@ -13,24 +13,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($post) {
 
-        $old_image_path = $post['image_src'];
+        if ($post['image_src']) {
+            $old_image_path = $post['image_src'];
 
-        $image_file_path = '.' . $old_image_path;
+            $image_file_path = '.' . $old_image_path;
 
-        if (file_exists($image_file_path)) {
-            unlink($image_file_path);
-        }
+            if (file_exists($image_file_path)) {
+                unlink($image_file_path);
+            }
 
-        $post_comments = $comments->get_comments($post_id);
+            $post_comments = $comments->get_comments($post_id);
 
-        foreach ($post_comments as $comment) {
+            foreach ($post_comments as $comment) {
 
-            if ($comment['image_src']) {
+                if ($comment['image_src']) {
 
-                $comment_image_path = '.' . $comment['image_src'];
+                    $comment_image_path = '.' . $comment['image_src'];
 
-                if (file_exists($comment_image_path)) {
-                    unlink($comment_image_path);
+                    if (file_exists($comment_image_path)) {
+                        unlink($comment_image_path);
+                    }
                 }
             }
         }

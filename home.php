@@ -8,6 +8,7 @@ $image = new Images();
 $date = new General();
 $uploads = new Uploads();
 $message = new Messages();
+$notification = new Notifications();
 
 
 $user_data = null;
@@ -52,16 +53,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_FILES['post_image']) && $_FILES['post_image']['error'] === UPLOAD_ERR_OK) {
                 $image_src = $uploads->addPostImage($id);
 
+
                 if ($post->create_post($_POST['post_content'], $image_src, $barangay, $_SESSION['user_id'])) {
-                    header("Location: home.php");
-                    exit();
+                    $last_post_res = $post->get_last_post();
+                    $lastPostID = "";
+
+                    if ($last_post_res) {
+                        $row = mysqli_fetch_assoc($last_post_res);
+                        $lastPostID = $row['post_id'];
+                        $lastPostContent = $row['post_content'];
+                    }
+
+                    $context = "Post";
+                    $barangay_users = $user->getBarangayUsers($barangay, $_SESSION['user_id']);
+
+                    if ($barangay_users) {
+                        foreach ($barangay_users as $user) {
+                            $res = $notification->createNotification($context, $content, $lastPostID, $user['id'], $_SESSION['user_id']);
+                        }
+                        header("Location: home.php");
+                        exit();
+                    }
+
+                    // $res = $notification->createNotification($context, $lastPostID, $_SESSION['user_id']);
+
+                    // if ($res) {
+                    //     header("Location: home.php");
+                    //     exit();
+                    // } else {
+                    //     echo "Error creating post.";
+                    // }
                 } else {
                     echo "Error creating post.";
                 }
             } else {
                 if ($post->create_post($_POST['post_content'], '', $barangay, $_SESSION['user_id'])) {
-                    header("Location: home.php");
-                    exit();
+                    $last_post_res = $post->get_last_post();
+                    $lastPostID = "";
+
+                    if ($last_post_res) {
+                        $row = mysqli_fetch_assoc($last_post_res);
+                        $lastPostID = $row['post_id'];
+                        $lastPostContent = $row['post_content'];
+                    }
+
+                    $context = "Post";
+                    $content = "Created a new post for barangay " . $barangay;
+
+                    $barangay_users = $user->getBarangayUsers($barangay, $_SESSION['user_id']);
+
+                    if ($barangay_users) {
+                        foreach ($barangay_users as $user) {
+                            $res = $notification->createNotification($context, $content, $lastPostID, $user['id'], $_SESSION['user_id']);
+                        }
+                        header("Location: home.php");
+                        exit();
+                    }
                 } else {
                     echo "Error creating post.";
                 }

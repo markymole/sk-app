@@ -122,6 +122,21 @@ class Posts
         return [];
     }
 
+    public function get_last_post()
+    {
+        $db = new Database();
+
+        $query = 'SELECT * FROM posts ORDER BY created_at DESC LIMIT 1';
+
+        $result = $db->read($query);
+
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
     public function get_all_posts_with_author_info()
     {
         $db = new Database();

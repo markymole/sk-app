@@ -1,5 +1,5 @@
 <?php
-if ($role !== "Member" && $role !== "Guest" && $role !== "Unkown") {
+if ($role !== "Member" && $role !== "Guest" && $role !== "Unknown") {
     echo <<<HTML
                 <div>
                 <form method="POST" enctype="multipart/form-data">
