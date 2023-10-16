@@ -1,8 +1,11 @@
 <?php
+require_once './config/autoload.php';
+
 $image_src = '';
 $message = new Messages();
+$comments = new Comments();
 $notification = new Notifications();
-
+$date = new General();
 
 if ($user_data) {
     $image_src = $image->getUserProfileImage($_SESSION['user_id'], $gender);
@@ -85,7 +88,7 @@ HTML; ?>
                                     </div>
                                 </button>
                     
-                                <div class="absolute right-0" id="">
+                                <div class="absolute right-0 z-50" id="">
                                     <div id="dropdownNotification" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700">
 HTML;       ?>
                 <?php include './templates/notification_template.php' ?>
@@ -135,12 +138,12 @@ HTML;
 
                                 <span class="sr-only">Search icon</span>
                             </div>
-                            <input type="text" id="search-navbar" class="block w-full p-2 px-32 pl-10 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
-                            <div id="results" class="mt-2"></div>
+                            <input type="text" id="search-navbar-mobile" class="block w-full px-4 py-2 pl-10  text-sm  text-gray-900 border border-gray-200 rounded-lg bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
+                            <div id="results-mobile" class="block w-full absolute z-50 bg-white p-2 rounded-lg border-2 shadow-xl" style="display: none;"></div>
                         </div>
                     </li>
                     <li>
-                        <a href="index.php" class="block py-2 pr-4 pl-3 text-white rounded bg-yellow-400 lg:bg-transparent lg:text-yellow-700 lg:p-0 dark:text-white" aria-current="page">
+                        <a href="index.php" class="block py-2 pr-4 pl-3 mt-2 lg:mt-0 text-white rounded bg-yellow-400 lg:bg-transparent lg:text-yellow-700 lg:p-0 dark:text-white" aria-current="page">
                             Home
                         </a>
                     </li>
@@ -252,6 +255,43 @@ HTML;
                         });
                     }
 
+                    resultList += '</ul>';
+                    resultsContainer.html(resultList);
+                    resultsContainer.show();
+                }
+            });
+        });
+
+        $("#search-navbar-mobile").on("input", function() {
+            var query = $(this).val();
+            var resultsContainer = $("#results-mobile");
+
+            if (query === "") {
+                resultsContainer.hide();
+                resultsContainer.html("");
+                return;
+            }
+
+            $.ajax({
+                url: "search.php",
+                method: "POST",
+                data: {
+                    query: query
+                },
+                success: function(data) {
+                    var results = JSON.parse(data);
+                    var resultList = '<ul class="list-style-type: none pl-2">';
+
+                    if (results.length === 0) {
+                        resultList += '<li class="w-full text-sm font-semibold text-gray-700 p-2 bg-white">No results found</li>';
+                    } else {
+                        results.forEach(function(result) {
+                            var userImage = '<img src="' + result.image_src + '" alt="User Image" class="w-8 h-8 rounded-full mr-2">';
+                            // Create a link to the user's profile with userContainer
+                            var userContainer = '<a href="profile.php?user_id=' + result.id + '" class="w-full text-sm font-semibold  text-gray-700 p-2 bg-white hover:bg-gray-100 transition duration-200 flex items-center">' + userImage + result.first_name + ' ' + result.last_name + '</a>';
+                            resultList += '<li>' + userContainer + '</li>';
+                        });
+                    }
                     resultList += '</ul>';
                     resultsContainer.html(resultList);
                     resultsContainer.show();

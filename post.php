@@ -1,13 +1,13 @@
 <?php
 require_once './config/autoload.php';
 
-$post = new Posts();
+$posted = new Posts();
 $user = new Users();
 $image = new Images();
 $date = new General();
 $uploads = new Uploads();
 $comments = new Comments();
-
+$notification = new Notifications();
 
 $user_data = null;
 if (isset($_SESSION['user_id'])) {
@@ -30,7 +30,7 @@ if (isset($_SESSION['user_id'])) {
 
 $post_id = $_GET['post_id'];
 
-$post = $post->get_post_with_likes($post_id);
+$post = $posted->get_post_with_likes($post_id);
 $post_comment = $comments->getCommentsWithLikes($post_id);
 
 ?>
@@ -47,15 +47,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $image_src = $uploads->addCommentImage($id);
 
                 if ($comments->createComment($post_id, $_SESSION['user_id'], $_POST['comment_content'], $image_src)) {
-                    header("Location: post.php?post_id=$post_id");
-                    exit();
+
+                    //start sending the notification
+                    $last_comment_res = $comments->get_last_comment();
+                    $lastCommentID = "";
+
+                    if ($last_comment_res) {
+                        $row = mysqli_fetch_assoc($last_comment_res);
+                        $lastCommentID = $row['comment_id'];
+                        $lastCommentContent = $row['comment_content'];
+                    }
+
+                    $post_res = $posted->get_post($post_id);
+                    if ($post_res) {
+                        $notify_to = $post_res['author'];
+                    }
+
+                    $context = "Comment";
+                    $content = 'Commented to your post "' . $lastCommentContent . '"';
+
+                    if ($_SESSION['user_id'] != $notify_to) {
+                        $res = $notification->createNotification($context, $content, $lastCommentID, $notify_to, $_SESSION['user_id']);
+                        if ($res) {
+                            header("Location: post.php?post_id=$post_id");
+                            exit();
+                        }
+                    } else {
+                        header("Location: post.php?post_id=$post_id");
+                        exit();
+                    }
                 } else {
                     echo "Error creating post.";
                 }
             } else {
                 if ($comments->createComment($post_id, $_SESSION['user_id'], $_POST['comment_content'])) {
-                    header("Location: post.php?post_id=$post_id");
-                    exit();
+                    $last_comment_res = $comments->get_last_comment();
+                    $lastCommentID = "";
+
+                    if ($last_comment_res) {
+                        $row = mysqli_fetch_assoc($last_comment_res);
+                        $lastCommentID = $row['comment_id'];
+                        $lastCommentContent = $row['comment_content'];
+                    }
+
+                    $post_res = $posted->get_post($post_id);
+                    if ($post_res) {
+                        $notify_to = $post_res['author'];
+                    }
+
+                    $context = "Comment";
+                    $content = 'Commented to your post "' . $lastCommentContent . '"';
+
+                    if ($_SESSION['user_id'] != $notify_to) {
+                        $res = $notification->createNotification($context, $content, $lastCommentID, $notify_to, $_SESSION['user_id']);
+                        if ($res) {
+                            header("Location: post.php?post_id=$post_id");
+                            exit();
+                        }
+                    } else {
+                        header("Location: post.php?post_id=$post_id");
+                        exit();
+                    }
                 } else {
                     echo "Error creating post.";
                 }
@@ -83,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <body class="bg-gray-900">
-    <div class="sticky top-0">
+    <div class="sticky top-0 z-50">
         <?php include './components/nav.php' ?>
     </div>
     <div>

@@ -103,7 +103,7 @@ HTML;
 
                         <div class="mt-4 mb-6 grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
                             $imageDiv
-                            <div class="text-sm text-gray-700">$post_content</div>
+                            <div class="text-sm lg:text-base text-gray-700">$post_content</div>
                         </div>
 
                         <div>

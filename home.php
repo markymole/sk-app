@@ -65,6 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
 
                     $context = "Post";
+                    $content = "Created a new post/announcement";
+
                     $barangay_users = $user->getBarangayUsers($barangay, $_SESSION['user_id']);
 
                     if ($barangay_users) {
@@ -98,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
 
                     $context = "Post";
-                    $content = "Created a new post for barangay " . $barangay;
+                    $content = "Created a new post/announcement";
 
                     $barangay_users = $user->getBarangayUsers($barangay, $_SESSION['user_id']);
 
@@ -160,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <div class="sticky top-0">
+    <div class="sticky top-0 z-50">
         <?php include './components/nav.php' ?>
     </div>
 

@@ -11,12 +11,18 @@ $cover_image = $image->getUserProfileImage($id, $gender);
             <div class="flex items-center gap-4">
                 <div class="relative">
                     <img src="<?php echo $cover_image ?>" class="w-24 h-24 lg:h-32 lg:w-32 border-4 object-cover border-white rounded-full cursor-pointer" id="profileImage">
-                    <div class="absolute top-30 w-56 bg-white border border-gray-300 rounded-lg shadow-md hidden" id="profilePictureOptions">
-                        <ul class="py-2">
-                            <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="uploadProfilePicture">Upload Profile Picture</li>
-                            <!-- <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="removeProfilePicture">Remove Profile Picture</li> -->
-                            <!-- <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="showProfilePicture">Show Profile Picture</li> -->
-                        </ul>
+                    <div>
+                        <?php if ($user_id == $_SESSION['user_id']) { ?>
+                            <div class="absolute top-30 w-56 bg-white border border-gray-300 rounded-lg shadow-md hidden" id="profilePictureOptions">
+                                <ul class="py-2">
+                                    <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="uploadProfilePicture">Upload Profile Picture</li>
+                                    <!-- <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="removeProfilePicture">Remove Profile Picture</li> -->
+                                    <!-- <li class="cursor-pointer block px-4 py-2 text-sm text-gray-700" id="showProfilePicture">Show Profile Picture</li> -->
+                                </ul>
+                            </div>
+                        <?php } else { ?>
+                            <div class="hidden" id="profilePictureOptions"></div>
+                        <?php } ?>
                     </div>
                 </div>
 

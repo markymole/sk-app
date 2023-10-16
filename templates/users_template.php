@@ -30,19 +30,21 @@ HTML;
 
             echo <<<HTML
             <li class="py-3 sm:py-4">
-                <div class="flex items-center space-x-4">
-                    <div class="flex-shrink-0">
-                        <img class="w-14 h-14 rounded-full" src="$image_src" alt="Neil image">
+                <a href="profile.php?user_id=$user_id">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <img class="w-14 h-14 rounded-full" src="$image_src" alt="Neil image">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-base font-medium text-gray-900 truncate dark:text-white">
+                                $first_name $last_name
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                $role
+                            </p>
+                        </div>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-base font-medium text-gray-900 truncate dark:text-white">
-                            $first_name $last_name
-                        </p>
-                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                            $role
-                        </p>
-                    </div>
-                </div>
+                </a>
             </li>
 HTML;
         }

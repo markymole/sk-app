@@ -23,6 +23,39 @@ class Comments
         return false;
     }
 
+    public function get_last_comment()
+    {
+        $db = new Database();
+
+        $query = 'SELECT * FROM comments ORDER BY created_at DESC LIMIT 1';
+
+        $result = $db->read($query);
+
+        if ($result) {
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
+    public function get_parent_post_of_comment($comment_id)
+    {
+        $db = new Database();
+
+        $query = 'SELECT parent_post FROM comments WHERE comment_id = ?';
+        $params = [$comment_id];
+
+        $result = $db->read($query, $params);
+
+        if ($result->num_rows === 1) {
+            $data = $result->fetch_assoc();
+            return $data['parent_post'];
+        } else {
+            // Comment not found or error occurred
+            return null;
+        }
+    }
+
     public function createComment($post_id, $comment_author, $comment_content, $image_src = null)
     {
         $db = new Database();

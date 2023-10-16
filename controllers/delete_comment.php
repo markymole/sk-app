@@ -7,6 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $_SESSION['user_id'];
 
     $comment = new Comments();
+    $notification = new Notifications();
+
     $res = $comment->get_comment($comment_id);
 
     if ($res) {
@@ -20,7 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ($comment->delete_comment($comment_id, $user)) {
-            echo json_encode(['success' => true]);
+            $res = $notification->deleteNotificationByPostID($comment_id);
+            if ($res) {
+                echo json_encode(['success' => true]);
+            }
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to delete the comment.']);
         }

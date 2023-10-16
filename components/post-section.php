@@ -27,7 +27,7 @@ if (!empty($post)) {
 
 <div class="">
     <div>
-        <div class="bg-white mt-10 md:w-1/2 mx-auto rounded-xl">
+        <div class="bg-white mt-0 lg:mt-10 border-t lg:border-none md:w-1/2 mx-auto lg:rounded-xl">
             <div class="flex items-center justify-between px-6">
                 <div class="flex items-center space-x-3 mt-3 mb-2">
                     <a href="profile.php?user_id=<?php echo $author_id ?>">
