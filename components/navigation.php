@@ -14,42 +14,74 @@ if ($user_data) {
 }
 ?>
 <header>
-    <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-        <div class="flex flex-wrap justify-between items-center w-full">
-            <a href="home.php" class="flex items-center">
-                <img src="./assets/logo/logo-v1.png" class="mr-3 object-cover h-10 w-28 lg:h-16 lg:w-52 " alt="SK Webby App Logo" />
-            </a>
+    <nav class="bg-white border-gray-200 relative lg:px-6 dark:bg-gray-900">
+        <div class="w-full flex flex-wrap items-center justify-between mx-auto p-4">
+            <div class="flex items-center lg:gap-4  xl:gap-10">
+                <a href="home.php" class="flex items-center">
+                    <img src="./assets/logo/logo-v1.png" class="mr-3 object-cover h-10 w-28 lg:h-16 lg:w-52 " alt="SK Webby App Logo" />
+                </a>
+                <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1 mt-2">
+                    <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-2 2xl:space-x-8 lg:gap-4 lg:mt-0">
+                        <li>
+                            <a href="index.php" class="block py-2 pr-4 pl-3 mt-2 lg:mt-0 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-yellow-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./about.php" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-yellow-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="how-it-works.php" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-yellow-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                                How it works
+                            </a>
+                        </li>
+                        <li>
+                            <a href="contact.php" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-yellow-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-            <?php
-            if (!$user_data) {
-                echo <<<HTML
+
+            <!-- only visible to mobile -->
+            <div class="flex">
+                <button id="search-button" type="button" aria-controls="navbar-search" aria-expanded="false" class="lg:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </button>
+                <div class="relative hidden md:block">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                        <span class="sr-only">Search icon</span>
+                    </div>
+                    <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
+                </div>
+                <button id="menu-button" data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+                    </svg>
+                </button>
+
+                <div>
+                    <?php
+                    if (!$user_data) {
+                        echo <<<HTML
                 <div class="flex items-center lg:order-2">
                     <a href="login.php" class="hidden lg:flex text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
                     <a href="register.php" class="hidden lg:flex text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">Get started</a>
                 </div>
 HTML;
-            } else {
-                echo <<<HTML
-                <div class="flex items-center lg:order-2">
+                    } else {
+                        echo <<<HTML
+                <div class="hidden lg:flex items-center lg:order-2">
                     <div class="flex md:order-2 ">
-                        <!-- <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-yellow-600 rounded-lg text-sm p-2.5 mr-1">
-                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                            <span class="sr-only">Search</span>
-                        </button> -->
-                        <!-- Search bar  -->
-                        <div class="relative hidden lg:block">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                </svg>
-
-                                <span class="sr-only">Search icon</span>
-                            </div>
-                            <input type="text" id="search-navbar" class="block w-full p-2 px-32 pl-10 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-100 focus:ring-yellow-500 focus:border-yellow-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
-                            <div id="results" class="block w-full absolute z-50 bg-white p-2 rounded-lg border-2 " style="display: none;"></div>
-                        </div>
                         <div class="inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <div class="relative">
                                 <a href="messages.php" type="button" class="flex lg:hidden mr-2 relative rounded-full bg-transparent p-1 text-gray-500 hover:text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -61,7 +93,6 @@ HTML;
                                     </svg>
 
                                 </a>
-
                                 <button id="message-button" type="button" class="hidden lg:flex mr-2 relative rounded-full bg-transparent p-1 text-gray-500 hover:text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                     <span class="absolute -inset-1.5"></span>
                                     <span class="sr-only">View messages</span>
@@ -72,11 +103,11 @@ HTML;
 
                                 </button>
 HTML; ?>
-                <div id="message-container" class="hidden right-0 absolute z-50">
-                    <?php include './templates/message_templates.php' ?>
-                </div>
-                <?php
-                echo <<<HTML
+                        <div id="message-container" class="hidden right-0 absolute z-50">
+                            <?php include './templates/message_templates.php' ?>
+                        </div>
+                        <?php
+                        echo <<<HTML
                             </div>
                             <div class="relative">
                                 <a href="notifications.php"  class="block lg:hidden inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button">
@@ -99,9 +130,9 @@ HTML; ?>
                                 <div class="absolute right-0 z-50" id="">
                                     <div id="dropdownNotification" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700">
 HTML;       ?>
-                <?php include './templates/notification_template.php' ?>
-            <?php
-                echo <<<HTML
+                        <?php include './templates/notification_template.php' ?>
+                    <?php
+                        echo <<<HTML
                                     </div>
                                 </div>
 
@@ -124,18 +155,16 @@ HTML;       ?>
                     </div>
                 </div>
 HTML;
-            } ?>
+                    } ?>
+                </div>
+            </div>
 
-            <button id="mobile-menu-toggle" type="button" class="-ml-20 inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                </svg>
-                <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                </svg>
-            </button>
-            <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1 " id="mobile-menu">
+
+
+        </div>
+        <!-- mobile nav -->
+        <div class="hidden w-full absolute w-full z-50 left-0 top-16 border-t bg-white pb-6 px-4" id="mobile-menu">
+            <div class="">
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:gap-4 lg:mt-0">
                     <li class="block lg:hidden">
                         <div class="relative">
@@ -172,141 +201,37 @@ HTML;
                         <?php
                         if (!$user_data) {
                             echo <<<HTML
-                                <div class="space-y-4 mt-6">
-                                    <a href="login.php" class="flex lg:hidden border border-gray-500 text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
-                                    <a href="register.php" class="flex lg:hidden text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">Get started</a>
-                                </div>
-HTML;
+                                    <div class="space-y-4 mt-6">
+                                        <a href="login.php" class="flex lg:hidden border border-gray-500 text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
+                                        <a href="register.php" class="flex lg:hidden text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">Get started</a>
+                                    </div>
+    HTML;
                         } else {
                             echo <<<HTML
-                        <div class="space-y-4 mt-6">
-                        <a href="profile.php" class="flex lg:hidden border border-gray-500 text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Profile</a>
-                        <a href="logout.php" class="flex lg:hidden text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">Log out</a>
-                    </div>
-HTML;
+                            <div class="space-y-4 mt-6">
+                            <a href="profile.php" class="flex lg:hidden border border-gray-500 text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Profile</a>
+                            <a href="logout.php" class="flex lg:hidden text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">Log out</a>
+                        </div>
+    HTML;
                         }
                         ?>
 
                     </li>
                 </ul>
             </div>
+
         </div>
     </nav>
 </header>
 
 <script>
     $(document).ready(function() {
-        $('#profile').click(function() {
-            $('#profile-menu').toggle();
-        });
-
-        $('#mobile-menu-toggle').click(function() {
+        $('#menu-button').click(function() {
             $('#mobile-menu').toggle();
-        });
-
-        $('#message-button').click(function() {
-            console.log('clicekd!');
-            $('#message-container').toggle();
-        });
-
-        $("#dropdownNotificationButton").click(function() {
-            $('#dropdownNotification').toggle();
         })
 
-        $(document).on('click', function(event) {
-            if (!$(event.target).closest('#profile').length && !$(event.target).closest('#profile-menu').length) {
-                $('#profile-menu').hide();
-            }
-        });
-
-        $(document).on('click', function(event) {
-            if (!$(event.target).closest('#message-button').length && !$(event.target).closest('#message-container').length) {
-                $('#message-container').hide();
-            }
-        });
-
-        $(document).on('click', function(event) {
-            if (!$(event.target).closest('#dropdownNotificationButton').length && !$(event.target).closest('#dropdownNotification').length) {
-                $('#dropdownNotification').hide();
-            }
-        });
-
-
-        // ajax functions that calls the search.php to retrieve the data
-        $("#search-navbar").on("input", function() {
-            var query = $(this).val();
-            var resultsContainer = $("#results");
-
-            if (query === "") {
-                resultsContainer.hide();
-                resultsContainer.html("");
-                return;
-            }
-
-            $.ajax({
-                url: "search.php",
-                method: "POST",
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    var results = JSON.parse(data);
-                    var resultList = '<ul class="list-style-type: none pl-2">';
-
-                    if (results.length === 0) {
-                        resultList += '<li class="w-full text-sm text-gray-700 p-2 bg-white">No results found</li>';
-                    } else {
-                        results.forEach(function(result) {
-                            var userImage = '<img src="' + result.image_src + '" alt="User Image" class="w-8 h-8 rounded-full mr-2">';
-                            // Create a link to the user's profile with userContainer
-                            var userContainer = '<a href="profile.php?user_id=' + result.id + '" class="w-full text-sm text-gray-700 p-2 bg-white hover:bg-gray-100 transition duration-200 flex items-center">' + userImage + result.first_name + ' ' + result.last_name + '</a>';
-                            resultList += '<li>' + userContainer + '</li>';
-                        });
-                    }
-
-                    resultList += '</ul>';
-                    resultsContainer.html(resultList);
-                    resultsContainer.show();
-                }
-            });
-        });
-
-        $("#search-navbar-mobile").on("input", function() {
-            var query = $(this).val();
-            var resultsContainer = $("#results-mobile");
-
-            if (query === "") {
-                resultsContainer.hide();
-                resultsContainer.html("");
-                return;
-            }
-
-            $.ajax({
-                url: "search.php",
-                method: "POST",
-                data: {
-                    query: query
-                },
-                success: function(data) {
-                    var results = JSON.parse(data);
-                    var resultList = '<ul class="list-style-type: none pl-2">';
-
-                    if (results.length === 0) {
-                        resultList += '<li class="w-full text-sm font-semibold text-gray-700 p-2 bg-white">No results found</li>';
-                    } else {
-                        results.forEach(function(result) {
-                            var userImage = '<img src="' + result.image_src + '" alt="User Image" class="w-8 h-8 rounded-full mr-2">';
-                            // Create a link to the user's profile with userContainer
-                            var userContainer = '<a href="profile.php?user_id=' + result.id + '" class="w-full text-sm font-semibold  text-gray-700 p-2 bg-white hover:bg-gray-100 transition duration-200 flex items-center">' + userImage + result.first_name + ' ' + result.last_name + '</a>';
-                            resultList += '<li>' + userContainer + '</li>';
-                        });
-                    }
-                    resultList += '</ul>';
-                    resultsContainer.html(resultList);
-                    resultsContainer.show();
-                }
-            });
-        });
-
+        $('#search-button').click(function() {
+            $('#mobile-menu').show();
+        })
     })
 </script>

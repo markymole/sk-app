@@ -4,6 +4,11 @@
 
 require_once('./config/autoload.php');
 
+if (isset($_SESSION['user_id'])) {
+  header("Location: index.php");
+  exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $users = new Users();
 

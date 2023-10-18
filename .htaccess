@@ -1,1 +1,3 @@
 RewriteEngine On
+
+ErrorDocument 404 /sk-app/404.php

@@ -22,21 +22,24 @@ HTML;
                     $receiver_last_name = $message['receiver_last_name'];
                     $receiver_gender = $message['receiver_gender'];
                     $last_message = $message['last_message']['message'];
+                    $last_message_time = $message['last_message']['created_at'];
+
 
                     $message_url = 'messages.php?id=' . $receiver_id;
 
 
                     $profile_image = $image->getUserProfileImage($receiver_id, $receiver_gender);
+                    $formatted_date = $date->messageDateFormat($last_message_time);
 
                     echo <<<HTML
                 <a href="$message_url"> 
                     <div id="conversation-item" class="px-6 flex items-center cursor-pointer hover:bg-gray-100 p-1.5 rounded-md">
                         <div class="w-10 h-10 bg-gray-300 rounded-full mr-3">
-                            <img src="$profile_image" alt="User Avatar" class="w-10 h-10 rounded-full">
+                            <img src="$profile_image" alt="User Avatar" class="w-10 h-10 rounded-full object-cover">
                         </div>
                         <div class="flex-1">
                             <h2 class="text-base font-semibold">$receiver_first_name $receiver_last_name</h2>
-                            <p class="text-sm text-gray-600">$last_message</p>
+                            <p class="text-sm text-gray-600">$last_message • $formatted_date</p>
                         </div>
                     </div>
                 </a>

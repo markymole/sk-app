@@ -48,10 +48,10 @@ if ($user_data) {
             <!-- Sidebar -->
             <div class="fixed h-fit w-full lg:relative h-full lg:w-1/4 bg-white border-r border-gray-300">
                 <!-- Sidebar Header -->
-                <header class="p-4 border-b border-t flex justify-between items-center text-gray-700 px-8">
+                <header class="p-4 border-b border-t flex justify-between items-center text-gray-700 px-5">
                     <h1 class="text-xl font-semibold">Messages</h1>
                 </header>
-                <div class="mt-4 px-6">
+                <div class="mt-4 px-5">
                     <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -300,7 +300,8 @@ if ($user_data) {
 
                             var userInfo = $('<div>').addClass('flex-1');
                             $('<h2>').addClass('text-base font-semibold').text(user.receiver_first_name + ' ' + user.receiver_last_name).appendTo(userInfo);
-                            $('<p>').addClass('text-sm text-gray-600').text(user.last_message.message).appendTo(userInfo);
+                            $('<p>').addClass('text-sm text-gray-600').text(user.last_message.message + " • " + user.messageTime).appendTo(userInfo);
+                            // $('<p>').addClass('text-sm text-gray-600').text().appendTo(userInfo);
 
                             userImage.appendTo(conversationItem);
                             userInfo.appendTo(conversationItem);
@@ -326,6 +327,26 @@ if ($user_data) {
         function scrollMessagesToBottom() {
             var messageContainer = $('#conversation');
             messageContainer.scrollTop(messageContainer[0].scrollHeight);
+        }
+
+        function formatTimeAgo(created_at) {
+            const currentTime = new Date();
+            const messageTime = new Date(created_at);
+            const timeDifference = currentTime - messageTime;
+            const seconds = Math.floor(timeDifference / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (days > 0) {
+                return `${days}d`;
+            } else if (hours > 0) {
+                return `${hours}h `;
+            } else if (minutes > 0) {
+                return `${minutes}m `;
+            } else {
+                return 'Just now';
+            }
         }
 
         $('#message-search-results').on('click', '.users-item', function() {
