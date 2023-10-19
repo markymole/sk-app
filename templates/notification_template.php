@@ -30,12 +30,43 @@
                 } else if (response.error) {
                     console.log('error');
                 }
-                setTimeout(loadNotifications, 1000);
+                setTimeout(loadNotifications, 3000);
             },
             error: function(xhr, status, error) {
                 console.error('Error loading notifications: ' + error);
 
-                setTimeout(loadNotifications, 1000);
+                setTimeout(loadNotifications, 3000);
+            }
+        });
+    }
+
+    $(document).on('click', 'a[data-notification-id]', function(e) {
+        e.preventDefault();
+
+        var notificationId = $(this).data('notification-id');
+        var redirectURL = $(this).attr('href'); // Store the URL first
+
+        markNotificationAsSeen(notificationId, function() {
+            window.location.href = redirectURL;
+        });
+    });
+
+
+    function markNotificationAsSeen(notificationId, callback) {
+        // console.log(notificationId);
+        $.ajax({
+            type: 'POST',
+            url: './controllers/mark_notification_as_seen.php',
+            data: {
+                notificationId: notificationId
+            },
+            success: function(response) {
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error marking notification as seen: ' + error);
             }
         });
     }

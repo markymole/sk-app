@@ -42,7 +42,7 @@ if (isset($_SESSION['user_id'])) {
 <body>
 
     <div class="sticky top-0 border-b z-50">
-        <?php include './components/nav.php' ?>
+        <?php include './components/navigation.php' ?>
 
     </div>
     <?php include './components/landing-section.php' ?>

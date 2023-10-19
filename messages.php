@@ -42,7 +42,7 @@ if ($user_data) {
 
 <body>
     <div class="bg-gray-900 h-screen overflow-hidden flex flex-col">
-        <?php include(__DIR__ . '/components/nav.php'); ?>
+        <?php include(__DIR__ . '/components/navigation.php'); ?>
 
         <div class="flex h-screen overflow-hidden w-full mx-auto">
             <!-- Sidebar -->

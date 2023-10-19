@@ -163,9 +163,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <div class="sticky top-0 z-50">
-        <?php include './components/nav.php' ?>
+        <?php include './components/navigation.php' ?>
     </div>
-
 
     <?php include './components/home-section.php' ?>
 

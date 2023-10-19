@@ -2,7 +2,6 @@
 
 $cover_image = $image->getUserProfileImage($id, $gender);
 
-
 ?>
 
 <div class="px-3 lg:px-0 max-w-5xl mx-auto mt-10">
@@ -154,8 +153,6 @@ HTML;
             const followButton = $(this);
             const followButtonText = $('#follow-button-text');
             const user_id = followButton.data('user-id');
-
-            console.log('clicked user id', user_id);
 
             const isFollowing = followButton.hasClass('following');
 

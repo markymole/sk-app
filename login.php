@@ -37,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
 </head>
 <div>
 
@@ -58,6 +57,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <label for="password" class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
           <input id="password" type="password" name="password" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
 
+          <div class="text-xs flex justify-end mb-4 text-gray-600">
+            <button id="show-password" type="button" class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hide-eye-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 hidden show-eye-icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+
+              <span>Show password</span>
+            </button>
+
+          </div>
           <button type="submit" class="transition duration-200 bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-600 focus:shadow-sm focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
             <span class="inline-block mr-2">Login</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -97,3 +110,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </div>
 
 </html>
+
+<script>
+  $(document).ready(function() {
+    const passwordInput = document.getElementById('password');
+    const showPasswordBtn = document.getElementById('show-password');
+    const hiddenIcon = document.querySelector('.hide-eye-icon');
+    const shownIcon = document.querySelector('.show-eye-icon');
+
+
+    showPasswordBtn.addEventListener('click', function() {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        shownIcon.classList.remove('hidden');
+        hiddenIcon.classList.add('hidden');
+      } else {
+        passwordInput.type = 'password';
+        shownIcon.classList.add('hidden');
+        hiddenIcon.classList.remove('hidden');
+      }
+    });
+  });
+</script>

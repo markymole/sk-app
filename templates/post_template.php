@@ -47,6 +47,20 @@ HTML;
                 $isAuthor = false;
             }
 
+            if (isset($_SESSION['user_id'])) {
+                $display_profile = <<<HTML
+                    <a href="profile.php?user_id=$author_id">                                
+                        <img class="h-9 w-9 rounded-full" src="$image_src" alt="">
+                    </a>
+HTML;
+            } else {
+                $display_profile = <<<HTML
+                    <div >                                
+                        <img class="h-9 w-9 rounded-full" src="$image_src" alt="">
+                    </div>
+HTML;
+            }
+
             if ($archived === 0) {
 
                 echo <<<HTML
@@ -55,9 +69,7 @@ HTML;
                     <div class="rounded-xl border p-5 shadow-md bg-white w-full">
                         <div class="flex w-full items-center justify-between border-b pb-3">
                             <div class="flex items-center space-x-4">
-                                <a href="profile.php?user_id=$author_id">                                
-                                    <img class="h-9 w-9 rounded-full" src="$image_src" alt="">
-                                </a>
+                                $display_profile
                                 <div class="">
                                     <div class="text-sm lg:text-lg font-bold text-gray-800">$post_author</div>
                                     <p class="hidden lg:block text-xs lg:text-sm text-gray-700">$role</p>

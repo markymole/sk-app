@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body class="bg-gray-900">
     <div class="sticky top-0 z-50">
-        <?php include './components/nav.php' ?>
+        <?php include './components/navigation.php' ?>
     </div>
     <div>
         <?php include './components/post-section.php' ?>

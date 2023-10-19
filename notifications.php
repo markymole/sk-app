@@ -44,7 +44,7 @@ if ($user_data) {
 
 <body>
     <div class="bg-gray-900 h-screen overflow-hidden flex flex-col">
-        <?php include(__DIR__ . '/components/nav.php'); ?>
+        <?php include(__DIR__ . '/components/navigation.php'); ?>
 
         <div class="h-screen overflow-hidden w-full mx-auto bg-white">
             <header class="p-4 border-b border-t flex justify-between items-center text-gray-700 px-5">

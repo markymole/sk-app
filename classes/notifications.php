@@ -19,7 +19,7 @@ class Notifications
     {
         $db = new Database();
 
-        $query = 'SELECT n.*, u.* FROM notifications n
+        $query = 'SELECT n.id AS notification_id, u.id AS user_id, n.*, u.* FROM notifications n
         INNER JOIN users u ON n.notif_from = u.id
         WHERE n.notif_to = ? 
         ORDER BY created_at DESC LIMIT 10';
@@ -52,8 +52,18 @@ class Notifications
     {
         $db = new Database();
 
-        $query = 'DELETE FROM notifications WHERE notif_from = ? AND notify_to = ? AND context = ? AND content = ?';
+        $query = 'DELETE FROM notifications WHERE notif_from = ? AND notif_to = ? AND context = ? AND content = ?';
         $params = [$notify_from, $notify_to, $context, $content];
+
+        return $db->save($query, $params);
+    }
+
+    public function markNotificationAsSeen($id)
+    {
+        $db = new Database();
+
+        $query = 'UPDATE notifications SET seen = 1 WHERE id = ?';
+        $params = [$id];
 
         return $db->save($query, $params);
     }
