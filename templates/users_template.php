@@ -33,7 +33,7 @@ HTML;
                 <a href="profile.php?user_id=$user_id">
                     <div class="flex items-center space-x-4">
                         <div class="flex-shrink-0">
-                            <img class="w-14 h-14 rounded-full" src="$image_src" alt="Neil image">
+                            <img class="w-14 h-14 rounded-full object-cover" src="$image_src" alt="Neil image">
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="text-base font-medium text-gray-900 truncate dark:text-white">

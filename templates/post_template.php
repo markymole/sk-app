@@ -50,13 +50,13 @@ HTML;
             if (isset($_SESSION['user_id'])) {
                 $display_profile = <<<HTML
                     <a href="profile.php?user_id=$author_id">                                
-                        <img class="h-9 w-9 rounded-full" src="$image_src" alt="">
+                        <img class="h-9 w-9 rounded-full object-cover" src="$image_src" alt="">
                     </a>
 HTML;
             } else {
                 $display_profile = <<<HTML
                     <div >                                
-                        <img class="h-9 w-9 rounded-full" src="$image_src" alt="">
+                        <img class="h-9 w-9 rounded-full object-cover" src="$image_src" alt="">
                     </div>
 HTML;
             }
