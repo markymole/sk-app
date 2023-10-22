@@ -245,14 +245,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var passwordErrors = $("#passwordErrors");
             checkPasswordsMatch();
 
-            // Clear previous messages and styles
             passwordErrors.empty();
-            passwordErrors.css("display", "block"); // Show the div
-            passwordErrors.css("background-color", "#ffcccc"); // Set the background color to red by default
-
-            // for (var i = 0; i < errors.length; i++) {
-            //     passwordErrors.append("<p class='text-red-500'>" + errors[i] + "</p>");
-            // }
+            passwordErrors.css("display", "block");
+            passwordErrors.css("background-color", "#ffcccc");
 
             if (errors.length > 0) {
                 for (var i = 0; i < errors.length; i++) {
@@ -260,29 +255,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             } else {
                 passwordErrors.append("<p class='text-green-500'>Password is valid.</p>");
-                passwordErrors.css("background-color", "#ccffcc"); // Set the background color to green when valid
+                passwordErrors.css("background-color", "#ccffcc");
             }
         }
 
         function isPasswordValid(password) {
             var errors = [];
 
-            // Password should be at least 8 characters
             if (password.length < 8) {
                 errors.push("Password must be at least 8 characters.");
             }
 
-            // Password should contain at least one number
             if (!/\d/.test(password)) {
                 errors.push("Password must contain at least one number.");
             }
 
-            // Password should contain at least one special character
             if (!/[^A-Za-z0-9]/.test(password)) {
                 errors.push("Password must contain at least one special character.");
             }
 
-            // Password should contain at least one uppercase letter
             if (!/[A-Z]/.test(password)) {
                 errors.push("Password must contain at least one uppercase letter.");
             }
