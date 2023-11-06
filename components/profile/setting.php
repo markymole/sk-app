@@ -52,7 +52,7 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="w-full">
                 <label for="role" class="font-semibold text-sm text-gray-600 pb-1 block">Role</label>
-                <select name="role" id="role" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full">
+                <select name="role" id="role" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" disabled>
                     <option value="" <?php echo ($role === '') ? 'selected' : ''; ?>>Select role</option>
                     <option value="SK Chairmain" <?php echo ($role === 'SK Chairmain') ? 'selected' : ''; ?>>SK Chairmain</option>
                     <option value="SK Chairwoman" <?php echo ($role === 'SK Chairwoman') ? 'selected' : ''; ?>>SK Chairwoman</option>
@@ -65,8 +65,8 @@ if (isset($_SESSION['user_id'])) {
 
         </div>
 
-        <label for="barangay" class="font-semibold text-sm text-gray-600 pb-1 block">Barangay</label>
-        <select name="barangay" id="barangay" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full">
+        <label for="barangay" class="font-semibold text-sm text-gray-600 pb-1">Barangay</label>
+        <select name="barangay" id="barangay" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" disabled>
             <option value="" <?php echo ($barangay === '') ? 'selected' : ''; ?>>Choose origin barangay</option>
             <option value="Amsic" <?php echo ($barangay === 'Amsic') ? 'selected' : ''; ?>>Amsic</option>
             <option value="Balibago" <?php echo ($barangay === 'Balibago') ? 'selected' : ''; ?>>Balibago</option>

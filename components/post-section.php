@@ -79,7 +79,7 @@ if (!empty($post)) {
             </div>
             <?php if (!empty($post_image)) : ?>
                 <div class="">
-                    <img src="<?php echo $post_image ?>" class="modal-image h-96 w-full object-cover" id="modalImage">
+                    <img src="<?php echo $post_image ?>" class="modal-image h-full w-full object-cover" id="modalImage">
                 </div>
             <?php endif; ?>
             <div class="px-6 mt-4 mb-4 pb-4">
