@@ -178,6 +178,19 @@ class Users
         }
     }
 
+    public function checkExistingUser($username, $email)
+    {
+        $query = 'SELECT id FROM users WHERE username = ? OR email = ?';
+        $params = [$username, $email];
+
+        $result = $this->db->read($query, $params);
+
+        if ($result && $result->num_rows > 0) {
+            return true; // Username or email already exists
+        } else {
+            return false; // Username and email are available
+        }
+    }
 
     public function logout()
     {

@@ -2,7 +2,7 @@
     <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
         <div class="mr-auto place-self-center lg:col-span-7">
             <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl text-white">A Community Organizer within Angeles City</h1>
-            <p class="max-w-2xl mb-6 font-light lg:mb-8 md:text-lg lg:text-xl text-gray-300">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p class="max-w-2xl mb-6 font-light lg:mb-8 md:text-lg lg:text-xl text-gray-300">A holistic approach to communication starts with the youth.</p>
             <div class="flex gap-2 lg:gap-4">
                 <a href="home.php" class="inline-flex items-center justify-center px-4 py-2 lg:py-2 mr-3 text-sm lg:text-base font-medium text-center text-white rounded bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">
                     Get started
@@ -21,7 +21,7 @@
     </div>
 </section>
 
-<section class="bg-white">
+<!--<section class="bg-white">
     <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
         <div class="max-w-screen-md mb-8 lg:mb-16">
             <h2 class="mb-4 text-4xl font-extrabold text-gray-800">Lorem ipsum dolor sit amet, consectetur </h2>
@@ -86,18 +86,17 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
 <section class="bg-gray-900">
     <div class="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
         <div class="font-light sm:text-lg text-gray-400">
-            <h2 class="mb-4 text-4xl font-extrabold text-white">Lorem ipsum dolor sit amet</h2>
-            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <h2 class="mb-4 text-4xl font-extrabold text-white">What is SK?</h2>
+            <p class="mb-4">Leadership is the ability to guide a group of people in a desired direction, planning and executing strategies to achieve common goals.<br><br>The Sangguniang Kabataan (SK) was established in the Philippines as a result of RA 7160. The SK provides a forum for young leaders to exercise their accountability, fairness, and transparency while carrying out their responsibilities and performing their activities as servants of the adolescent community (Enopiquez, 2019).<br><br>A Sangguniang Kabataan is a local council composed of youth who represent their barangays. They are appointed to serve the needs of their constituents and implement programs to promote moral, spiritual, cultural, and physical development among their members especially in youth.<br><br>“The greatest leader is not necessarily the one who does the greatest things. They are the one that get the people to do the greatest things.” — Ronald Reagan</p>
         </div>
         <div class="grid grid-cols-2 gap-4 mt-8">
-            <img class="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1">
-            <img class="mt-4 w-full lg:mt-10 rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2">
+            <img class="w-full rounded-lg" src="./assets/personalimg/acChurch.png" alt="Angeles City Church">
+            <img class="mt-4 w-full lg:mt-10 rounded-lg" src="./assets/personalimg/acArc.png" alt="Angeles City Arc">
         </div>
     </div>
 </section>

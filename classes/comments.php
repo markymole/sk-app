@@ -129,7 +129,7 @@ class Comments
                   LEFT JOIN users ON comments.comment_author = users.id
                   WHERE comments.parent_post = ?
                   GROUP BY comments.comment_id
-                  ORDER BY comments.created_at DESC';
+                  ORDER BY comments.created_at ASC';
 
         // Bind the parameter
         $params = [$post_id];

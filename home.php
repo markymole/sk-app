@@ -75,16 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                         header("Location: home.php");
                         exit();
+                    } else {
+                        header("Location: home.php");
+                        exit();
                     }
-
-                    // $res = $notification->createNotification($context, $lastPostID, $_SESSION['user_id']);
-
-                    // if ($res) {
-                    //     header("Location: home.php");
-                    //     exit();
-                    // } else {
-                    //     echo "Error creating post.";
-                    // }
                 } else {
                     echo "Error creating post.";
                 }
@@ -108,6 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         foreach ($barangay_users as $user) {
                             $res = $notification->createNotification($context, $content, $lastPostID, $user['id'], $_SESSION['user_id']);
                         }
+                        header("Location: home.php");
+                        exit();
+                    } else {
                         header("Location: home.php");
                         exit();
                     }

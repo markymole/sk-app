@@ -36,7 +36,6 @@ if (isset($_SESSION['user_id'])) {
                 <label for="last_name" class="font-semibold text-sm text-gray-600 pb-1 block">Last Name</label>
                 <input type="text" name="last_name" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $lastName ?>" />
             </div>
-
         </div>
 
         <div class="flex gap-6">
@@ -52,7 +51,8 @@ if (isset($_SESSION['user_id'])) {
 
             <div class="w-full">
                 <label for="role" class="font-semibold text-sm text-gray-600 pb-1 block">Role</label>
-                <select name="role" id="role" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" disabled>
+                <input type="role" name="role" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $role ?>" readonly />
+                <!-- <select name="role" id="role" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" readonly>
                     <option value="" <?php echo ($role === '') ? 'selected' : ''; ?>>Select role</option>
                     <option value="SK Chairmain" <?php echo ($role === 'SK Chairmain') ? 'selected' : ''; ?>>SK Chairmain</option>
                     <option value="SK Chairwoman" <?php echo ($role === 'SK Chairwoman') ? 'selected' : ''; ?>>SK Chairwoman</option>
@@ -60,13 +60,14 @@ if (isset($_SESSION['user_id'])) {
                     <option value="Secretary" <?php echo ($role === 'Secretary') ? 'selected' : ''; ?>>Secretary</option>
                     <option value="Treasurer" <?php echo ($role === 'Treasurer') ? 'selected' : ''; ?>>Treasurer</option>
                     <option value="Member" <?php echo ($role === 'Member') ? 'selected' : ''; ?>>Member</option>
-                </select>
+                </select> -->
             </div>
 
         </div>
 
         <label for="barangay" class="font-semibold text-sm text-gray-600 pb-1">Barangay</label>
-        <select name="barangay" id="barangay" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" disabled>
+        <input type="barangay" name="barangay" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $barangay ?>" readonly />
+        <!-- <select name="barangay" id="barangay" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full">
             <option value="" <?php echo ($barangay === '') ? 'selected' : ''; ?>>Choose origin barangay</option>
             <option value="Amsic" <?php echo ($barangay === 'Amsic') ? 'selected' : ''; ?>>Amsic</option>
             <option value="Balibago" <?php echo ($barangay === 'Balibago') ? 'selected' : ''; ?>>Balibago</option>
@@ -77,7 +78,7 @@ if (isset($_SESSION['user_id'])) {
             <option value="Pampang" <?php echo ($barangay === 'Pampang') ? 'selected' : ''; ?>>Pampang</option>
             <option value="Sapangbato" <?php echo ($barangay === 'Sapangbato') ? 'selected' : ''; ?>>Sapangbato</option>
             <option value="Sta. Teresita" <?php echo ($barangay === 'Sta. Teresita') ? 'selected' : ''; ?>>Sta. Teresita</option>
-        </select>
+        </select> -->
 
         <h5 class="bold text-gray-700 font-semibold mb-4">Account Information</h5>
 
@@ -87,12 +88,15 @@ if (isset($_SESSION['user_id'])) {
         <label for="email" class="font-semibold text-sm text-gray-600 pb-1 block">Email</label>
         <input type="email" name="email" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $email ?>" />
 
-        <button type="submit" class="transition duration-200 bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-600 focus:shadow-sm focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-            <span class="inline-block mr-2">Save</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-        </button>
+        <div>
+            <button type="button" class="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-600 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">Delete Account</button>
+            <button type="submit" class="transition duration-200 bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-600 focus:shadow-sm focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+                <span class="inline-block mr-2">Save</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </button>
+        </div>
     </form>
 </div>
 

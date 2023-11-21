@@ -5,7 +5,7 @@
 require_once('./config/autoload.php');
 
 if (isset($_SESSION['user_id'])) {
-  header("Location: index.php");
+  header("Location: home.php");
   exit();
 }
 
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $user = $users->login($emailOrUsername, $password);
 
   if ($user) {
-    header("Location: index.php");
+    header("Location: home.php");
     exit();
   } else {
     $_SESSION['login_error'] = "Invalid email/username or password.";
