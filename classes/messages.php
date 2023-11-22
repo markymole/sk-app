@@ -33,39 +33,6 @@ class Messages
         }
     }
 
-    public function fetchMessages($conversationId)
-    {
-        $db = new Database();
-        // Create a query to fetch messages for the given conversation
-        $query = "SELECT id, sender_id, message, timestamp
-                  FROM messages
-                  WHERE conversation_id = ?
-                  ORDER BY timestamp ASC";
-
-        $params = [$conversationId];
-
-        $result = $db->read($query, $params);
-
-        if ($result) {
-            $messages = [];
-
-            while ($row = $result->fetch_assoc()) {
-                // You can format the message data as needed
-                $messages[] = [
-                    'id' => $row['id'],
-                    'sender_id' => $row['sender_id'],
-                    'message' => $row['message'],
-                    'timestamp' => $row['timestamp']
-                ];
-            }
-
-            return $messages;
-        } else {
-            // Handle database query error
-            return false;
-        }
-    }
-
     public function getUsersWithLastMessage($userId)
     {
         $db = new Database();
@@ -133,7 +100,13 @@ class Messages
         $result = $db->read($query, $params);
 
         if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
+            $row = $result->fetch_assoc();
+
+            $decryptedMessage = $this->decryptMessage($row['message']);
+
+            $row['message'] = $decryptedMessage;
+
+            return $row;
         } else {
             return [];
         }
@@ -157,7 +130,9 @@ class Messages
             $messages = [];
 
             while ($row = $result->fetch_assoc()) {
-                // You can format the message data as needed
+                $decryptedMessage = $this->decryptMessage($row['message']);
+
+                $row['message'] = $decryptedMessage;
                 $messages[] = $row;
             }
 
@@ -172,10 +147,12 @@ class Messages
     {
         $db = new Database();
 
+        $encryptedMessage = $this->encryptMessage($messageText);
+
         $query = "INSERT INTO messages (sender_id, receiver_id, message, created_at)
                   VALUES (?, ?, ?, NOW())";
 
-        $params = [$senderId, $receiverId, $messageText];
+        $params = [$senderId, $receiverId, $encryptedMessage];
 
         $result = $db->save($query, $params);
 
@@ -185,5 +162,26 @@ class Messages
             // Handle database query error
             return false;
         }
+    }
+
+    private function encryptMessage($message)
+    {
+        $key = 'QyMLRL4VkCGA3m42krXk2cQX6XjrcWvA ';
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-CBC'));
+        $encrypted = openssl_encrypt($message, 'AES-256-CBC', $key, 0, $iv);
+        $encoded = base64_encode($iv . $encrypted);
+
+        return $encoded;
+    }
+
+    private function decryptMessage($encoded)
+    {
+        $key = 'QyMLRL4VkCGA3m42krXk2cQX6XjrcWvA ';
+        $decoded = base64_decode($encoded);
+        $iv = substr($decoded, 0, openssl_cipher_iv_length('AES-256-CBC'));
+        $encrypted = substr($decoded, openssl_cipher_iv_length('AES-256-CBC'));
+        $decrypted = openssl_decrypt($encrypted, 'AES-256-CBC', $key, 0, $iv);
+
+        return $decrypted;
     }
 }

@@ -49,8 +49,11 @@
                 </button>
 
             </div>
+            <input id="current_user_barangay" type="text" class="hidden" value="<?php echo $barangay ?>">
 
-            <?php include './templates/create_post.php' ?>
+            <div id="create_post_container">
+                <?php include './templates/create_post.php' ?>
+            </div>
             <div id="post-container">
                 <?php require_once './templates/post_template.php';
 
@@ -99,9 +102,15 @@
     $(document).ready(function() {
         $('#barangay-select').change(function() {
             var selectedBarangay = $(this).val();
+            var userBarangay = $('#current_user_barangay').val();
             $('#barangay_name').text('Barangay ' + selectedBarangay);
 
-            console.log(selectedBarangay);
+            if (selectedBarangay != userBarangay) {
+                $('#create_post_container').addClass('hidden');
+            } else {
+                $('#create_post_container').removeClass('hidden');
+            }
+
             $.ajax({
                 type: 'POST',
                 url: './filter_barangay.php',

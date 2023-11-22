@@ -267,6 +267,7 @@ if ($user_data) {
                         receiverId: receiverId
                     },
                     success: function(messages) {
+                        console.log('mmessage', messages);
                         resolve(messages);
                     },
                     error: function(xhr, status, error) {

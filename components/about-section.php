@@ -18,26 +18,26 @@
                 <p class="max-w-2xl mb-6 font-light lg:mb-8 md:text-lg lg:text-xl text-gray-300">"To Strengthen Community Ties"<br><br>Explanation: To strengthen the bonds between the youth and their SK officials, ultimately building a sense of community and collaboration.</p>
             </div>
             <div class="w-full lg:pt-4">
-                <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 lg:gap-4 shadow-lg rounded-md bg-white">
+                <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-2 lg:gap-4 shadow-lg rounded-md bg-white">
                     <div class="p-4 pb-6 flex justify-center flex-col items-center">
                         <img class="md:block hidden" src="./assets/personalimg/alex.png" alt="Alexandra featured Image" />
-                        <img class="md:hidden block" src="./assets/personalimg/alex.png" alt="Alexandra featured Image" />
-                        <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Chico,<br>Alexandra</p>
+                        <img class="md:hidden block w-24" src="./assets/personalimg/alex.png" alt="Alexandra featured Image" />
+                        <p class="font-medium text-sm md:text-xl leading-5 text-gray-800 dark:text-white mt-4">Chico,<br>Alexandra</p>
                     </div>
                     <div class="p-4 pb-6 flex justify-center flex-col items-center">
                         <img class="md:block hidden" src="./assets/personalimg/gwy.png" alt="Gwyneth featured Image" />
-                        <img class="md:hidden block" src="./assets/personalimg/gwy.png" alt="Gwyneth featured Image" />
-                        <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Chico,<br>Gwyneth Carina</p>
+                        <img class="md:hidden block w-24" src="./assets/personalimg/gwy.png" alt="Gwyneth featured Image" />
+                        <p class="font-medium text-sm md:text-xl leading-5 text-gray-800 dark:text-white mt-4">Chico,<br>Gwyneth Carina</p>
                     </div>
                     <div class="p-4 pb-6 flex justify-center flex-col items-center">
                         <img class="md:block hidden" src="./assets/personalimg/kerb.png" alt="Joshua featured Image" />
-                        <img class="md:hidden block" src="./assets/personalimg/kerb.png" alt="Joshua featured Image" />
-                        <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Sagun,<br>Joshua Kerby</p>
+                        <img class="md:hidden block w-24" src="./assets/personalimg/kerb.png" alt="Joshua featured Image" />
+                        <p class="font-medium text-sm md:text-xl leading-5 text-gray-800 dark:text-white mt-4">Sagun,<br>Joshua Kerby</p>
                     </div>
                     <div class="p-4 pb-6 flex justify-center flex-col items-center">
                         <img class="md:block hidden" src="./assets/personalimg/ella.png" alt="Ella featured Image" />
-                        <img class="md:hidden block" src="./assets/personalimg/ella.png" alt="Ella featured Image" />
-                        <p class="font-medium text-xl leading-5 text-gray-800 dark:text-white mt-4">Soriano,<br>Ma. Carmela</p>
+                        <img class="md:hidden block w-24" src="./assets/personalimg/ella.png" alt="Ella featured Image" />
+                        <p class="font-medium text-sm md:text-xl leading-5 text-gray-800 dark:text-white mt-4">Soriano,<br>Ma. Carmela</p>
                     </div>
                 </div>
             </div>

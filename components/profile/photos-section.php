@@ -17,15 +17,24 @@ if (isset($_GET['user_id'])) {
     <div class="container mx-auto px-5 py-2 lg:pt-12">
         <div class="image-gallery -m-1 flex flex-wrap md:-m-2">
             <?php
-            foreach ($profiles as $index => $profile_image) {
-                echo <<<HTML
+            if ($profiles) {
+                foreach ($profiles as $index => $profile_image) {
+                    echo <<<HTML
                 <div class="image flex w-full lg:w-1/3 flex-wrap">
                     <div class="w-full p-3 md:p-2">
                         <img alt="$profile_image" class="block h-full w-full rounded-lg object-cover object-center" src="$profile_image" />
                     </div>
                 </div>
 HTML;
+                }
+            } else {
+                echo <<<HTML
+                <div>
+                    <p class="pb-10">No upload yet</p>
+                </div>
+HTML;
             }
+
             ?>
 
         </div>
