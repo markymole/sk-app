@@ -172,4 +172,16 @@ class Comments
 
         return $db->save($query, $params);
     }
+
+    public function deleteCommentsByAuthor($comment_author)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM comments WHERE comment_author = ?';
+        $params = [$comment_author];
+
+        $result = $db->save($query, $params);
+
+        return $result ? true : false;
+    }
 }

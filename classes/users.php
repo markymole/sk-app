@@ -186,9 +186,9 @@ class Users
         $result = $this->db->read($query, $params);
 
         if ($result && $result->num_rows > 0) {
-            return true; // Username or email already exists
+            return true;
         } else {
-            return false; // Username and email are available
+            return false;
         }
     }
 
@@ -197,5 +197,17 @@ class Users
         session_destroy();
 
         header("Location: ./index.php");
+    }
+
+    public function delete_user($user_id)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM users WHERE id = ?';
+        $params = [$user_id];
+
+        $result = $db->save($query, $params);
+
+        return $result ? true : false;
     }
 }

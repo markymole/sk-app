@@ -46,16 +46,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'message' => 'Post not found.']);
     }
 }
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $post_id = $_POST['post_id'];
-//     $user = $_SESSION['user_id'];
-
-//     $posts = new Posts();
-
-//     if ($posts->delete_post($post_id, $user)) {
-//         echo json_encode(['success' => true]);
-//     } else {
-//         echo json_encode(['success' => false, 'message' => 'Failed to delete the post.']);
-//     }
-// }

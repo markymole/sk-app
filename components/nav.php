@@ -205,7 +205,6 @@ HTML;
         });
 
         $('#message-button').click(function() {
-            console.log('clicekd!');
             $('#message-container').toggle();
         });
 
@@ -232,7 +231,6 @@ HTML;
         });
 
 
-        // ajax functions that calls the search.php to retrieve the data
         $("#search-navbar").on("input", function() {
             var query = $(this).val();
             var resultsContainer = $("#results");
@@ -258,7 +256,6 @@ HTML;
                     } else {
                         results.forEach(function(result) {
                             var userImage = '<img src="' + result.image_src + '" alt="User Image" class="w-8 h-8 rounded-full mr-2">';
-                            // Create a link to the user's profile with userContainer
                             var userContainer = '<a href="profile.php?user_id=' + result.id + '" class="w-full text-sm text-gray-700 p-2 bg-white hover:bg-gray-100 transition duration-200 flex items-center">' + userImage + result.first_name + ' ' + result.last_name + '</a>';
                             resultList += '<li>' + userContainer + '</li>';
                         });

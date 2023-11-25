@@ -21,7 +21,14 @@
                 <!-- Image Preview Container -->
                 <div id="editImageContainer" class="image-preview mt-2">
                     <input type="hidden" name="editImagePreviewContainer" id="editImagePreviewContainer" value="">
-                    <img src="" id="editImagePreview" alt="" class="max-h-40 object-cover rounded-lg shadow-sm mb-2">
+                    <div id="image-container" class="relative">
+                        <img src="" id="editImagePreview" alt="" class="max-w-full max max-h-96 object-cover rounded-lg shadow-sm mb-2">
+                        <div class="p-1 bg-white rounded-full absolute top-2 right-2">
+                            <svg id="removeImage" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 cursor-pointer">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="icons flex text-gray-500 m-2">
@@ -50,10 +57,14 @@
 <script>
     $(document).ready(function() {
 
-        // functions for the edit button
+        $('#removeImage').click(function(e) {
+            var imageSrc = $(this).data('image-src');
+            $('#editImagePreviewContainer').val('');
+            $('#editImagePreview').attr('src', '');
+        })
+
         $('.edit-post-btn').click(function(e) {
             e.preventDefault();
-            // Retrieve the post data for editing
             var postId = $(this).data('post-id');
             var postContent = $(this).data('post-content');
             var imageSrc = $(this).data('image-src');
@@ -62,7 +73,6 @@
             var lastName = $(this).data('last-name');
             var formattedDate = $(this).data('formatted-date');
 
-            // Set the form fields with the post data
             $('#modalImg').attr('src', imageSrc);
             $('#editPostId').val(postId);
             $('textarea[name="post_content_edit"]').val(postContent);
@@ -70,24 +80,19 @@
             $('#modalDate').text(formattedDate);
             $('#editImagePreviewContainer').val(postImage);
 
-            // Set the image previe
             if (postImage !== "") {
                 $('#editImagePreview').attr('src', postImage);
             } else {
-                // If imageSrc is empty or undefined, hide the image container
                 $('#editImageContainer').hide();
             }
 
-            // Show the edit modal
             $('#editModal').fadeIn();
         });
 
-        // Close the edit modal when clicking the close button
         $('#closeEditModal2').click(function() {
             $('#editModal').fadeOut();
         });
 
-        // Close the edit modal when clicking outside the modal content
         $(window).click(function(e) {
             if (e.target == $('#editModal')[0]) {
                 $('#editModal').fadeOut();
@@ -95,7 +100,6 @@
         });
 
         document.getElementById('fileInputEdit').addEventListener('change', function() {
-            // Get the selected file name and display it in the paragraph
             const selectedFile = this.files[0];
             if (selectedFile) {
                 document.getElementById('selectedFileName2').textContent = selectedFile.name;

@@ -3,8 +3,6 @@
 require_once '../config/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get form data
-
     $post = new Posts();
 
     $content = $_POST['post_content'];
@@ -12,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $post_type = $_POST['post_type'];
     $author = $_POST['post_author'];
 
-    // Call the create_post function
     if ($post->create_post($content, $image_src, $post_type, $author)) {
         echo "Post created successfully!";
     } else {

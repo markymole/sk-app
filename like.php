@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $post = new Posts();
         $notification = new Notifications();
 
-        // Attempt to insert a like, it will return false if the user has already liked it
         $result = $likes->insertLike($user_id, 'post', $post_id);
 
         $post_result = $post->get_post($post_id);
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $author = $post_result['author'];
         }
 
-        //send notification
         $context = "Like Post";
         $content = "Liked your post";
 
@@ -29,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             echo 'Liked';
         } else {
-            // User has already liked the post, so delete the like
             $deleted = $likes->deleteLike($user_id, 'post', $post_id);
             if ($deleted) {
                 $notificationID = $notification->getNotificationIDByContent($context, $content, $post_id, $_SESSION['user_id'], $author);

@@ -267,7 +267,6 @@ HTML;
         });
 
         $('#message-button').click(function() {
-            console.log('clicekd!');
             $('#message-container').toggle();
         });
 
@@ -389,6 +388,6 @@ HTML;
             });
         }
 
-        setInterval(checkNotifications, 1000);
+        setInterval(checkNotifications, 2000);
     })
 </script>

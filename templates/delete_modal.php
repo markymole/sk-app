@@ -42,7 +42,6 @@
 <script>
     $(document).ready(function() {
 
-        // functions for the edit button
         $('.delete-post-btn').click(function(e) {
             e.preventDefault();
             var postId = $(this).data('post-id');
@@ -52,12 +51,10 @@
             $('#deleteModal').fadeIn();
         });
 
-        // Close the edit modal when clicking the close button
         $('#closeDeleteModal').click(function() {
             $('#deleteModal').fadeOut();
         });
 
-        // Close the edit modal when clicking outside the modal content
         $(window).click(function(e) {
             if (e.target == $('#deleteModal')[0]) {
                 $('#deleteModal').fadeOut();

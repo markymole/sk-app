@@ -22,7 +22,6 @@ function renderPosts(&$posts)
             $archived = $post['archived'];
 
             $post_author = $first_name . ' ' . $last_name;
-            // $barangay = $post['barangay'];
             $barangay = $post['author_barangay'];
 
             $role = $post['role'];

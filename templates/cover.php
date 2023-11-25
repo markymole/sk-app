@@ -1,7 +1,9 @@
 <?php
 
 $cover_image = $image->getUserProfileImage($id, $gender);
-
+$followers_count = $follow->countFollowers($id);
+$following_count = $follow->countFollowing($id);
+$image_count = $image->countUserProfileImages($id);
 ?>
 
 <div class="px-3 lg:px-0 max-w-5xl mx-auto mt-10">
@@ -80,13 +82,13 @@ HTML;
                             <a href="#" id="about-link" class="text-gray-700 dark:text-white hover:underline">About</a>
                         </li>
                         <li>
-                            <a href="#" id="followers-link" class="text-gray-700 dark:text-white hover:underline">Followers</a>
+                            <a href="#" id="followers-link" class="text-gray-700 dark:text-white hover:underline">Followers (<?php echo $followers_count ?>)</a>
                         </li>
                         <li>
-                            <a href="#" id="following-link" class="text-gray-700 dark:text-white hover:underline">Following</a>
+                            <a href="#" id="following-link" class="text-gray-700 dark:text-white hover:underline">Following (<?php echo $following_count ?>)</a>
                         </li>
                         <li>
-                            <a href="#" id="photos-link" class="text-gray-700 dark:text-white hover:underline">Photos</a>
+                            <a href="#" id="photos-link" class="text-gray-700 dark:text-white hover:underline">Photos (<?php echo $image_count ?>)</a>
                         </li>
                         <li>
                             <?php if ($user_id == $_SESSION['user_id']) { ?>
@@ -168,7 +170,6 @@ HTML;
                     var response = JSON.parse(response);
 
                     if (response.success) {
-                        // Toggle the "following" class and update the button text
                         followButton.toggleClass('following');
                         followButtonText.text(isFollowing ? 'Follow' : 'Following');
                     } else {

@@ -44,7 +44,7 @@
         e.preventDefault();
 
         var notificationId = $(this).data('notification-id');
-        var redirectURL = $(this).attr('href'); // Store the URL first
+        var redirectURL = $(this).attr('href');
 
         markNotificationAsSeen(notificationId, function() {
             window.location.href = redirectURL;
@@ -53,7 +53,6 @@
 
 
     function markNotificationAsSeen(notificationId, callback) {
-        // console.log(notificationId);
         $.ajax({
             type: 'POST',
             url: './controllers/mark_notification_as_seen.php',
@@ -71,6 +70,5 @@
         });
     }
 
-    // Initial call to load notifications
     loadNotifications();
 </script>

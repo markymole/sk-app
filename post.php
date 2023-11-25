@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($comments->createComment($post_id, $_SESSION['user_id'], $_POST['comment_content'], $image_src)) {
 
-                    //start sending the notification
                     $last_comment_res = $comments->get_last_comment();
                     $lastCommentID = "";
 
@@ -183,7 +182,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
 
         document.getElementById('fileInput').addEventListener('change', function() {
-            // Get the selected file name and display it in the paragraph
             const selectedFile = this.files[0];
             if (selectedFile) {
                 document.getElementById('selectedFileName').textContent = selectedFile.name;

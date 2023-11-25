@@ -11,7 +11,6 @@ if (isset($_POST['submit'])) {
     ini_set('sendmail_from', $recipient_email);
     ini_set('sendmail_path', "/usr/sbin/sendmail -t -i");
 
-    // Send the email
     if (mail($recipient_email, $subject, $message, $headers)) {
         return true;
     } else {

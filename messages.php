@@ -139,11 +139,9 @@ if ($user_data) {
         backToConversationButton.hide();
 
         backToConversationButton.click(function() {
-            // Hide the chat-messages div and the back button
             chatMessages.hide();
             backToConversationButton.hide();
 
-            // Hide the chat-messages on mobile when going back to active conversation
             if ($(window).width() <= 768) {
                 $('#active-conversations').show();
             }
@@ -158,7 +156,6 @@ if ($user_data) {
             return params.get('id');
         }
 
-        // Load conversation when the page is initially loaded
         const receiverIdFromURL = getReceiverIdFromURL();
         if (receiverIdFromURL) {
             loadConversationMessages(receiverIdFromURL);
@@ -189,10 +186,6 @@ if ($user_data) {
                 chatContainer.show()
             }
 
-            // noChatsMessage.hide();
-            // chatContainer.show()
-
-            // Load user information and conversation messages in parallel using Promise.all
             Promise.all([
                     loadUserInformation(receiverId),
                     loadMessages(receiverId),
@@ -214,7 +207,6 @@ if ($user_data) {
 
 
                     if (messages.length === 0) {
-                        // If there are no messages, display a "No messages found" message
                         $('#messages').append('<div class="text-center text-gray-500 py-4">No messages found.</div>');
                         $('#mobile-messages').append('<div class="text-center text-gray-500 py-4">No messages found.</div>');
                     } else {
@@ -225,10 +217,8 @@ if ($user_data) {
                                 .addClass(message.isSender ? 'bg-gray-400 text-white' : 'bg-gray-200 text-gray-800')
                                 .text(message.message);
 
-                            // Append the message text element to the message element
                             messageTextElement.appendTo(messageElement);
 
-                            // Append the message element to the messages container
                             messageElement.appendTo($('#messages'));
                             messageElement.appendTo($('#mobile-messages'));
 
@@ -267,7 +257,6 @@ if ($user_data) {
                         receiverId: receiverId
                     },
                     success: function(messages) {
-                        console.log('mmessage', messages);
                         resolve(messages);
                     },
                     error: function(xhr, status, error) {
@@ -376,7 +365,6 @@ if ($user_data) {
                 backToConversationButton.show();
             }
 
-            console.log('conversation id:', receiverId);
             loadConversationMessages(receiverId);
         });
 
@@ -404,10 +392,7 @@ if ($user_data) {
 
 
 
-            console.log('conversation id:', receiverId);
             loadConversationMessages(receiverId);
-
-            // $('#message-search-results').hide();
         });
 
         setInterval(function() {
@@ -422,12 +407,9 @@ if ($user_data) {
         }, 1000);
 
         $('#message-input').on('keyup', function(event) {
-            // Check if the Enter key (key code 13) is pressed
             if (event.keyCode === 13) {
-                // Prevent the default Enter key behavior (e.g., line break)
                 event.preventDefault();
 
-                // Trigger the click event of the Send button
                 $('#send-message-btn').click();
             }
         });
@@ -441,7 +423,6 @@ if ($user_data) {
             var messageText = messageInput.val().trim();
 
             if (messageText === "") {
-                // Handle empty message, e.g., show an error message to the user.
                 return;
             }
 
@@ -481,10 +462,8 @@ if ($user_data) {
                 $('#active-conversations').hide();
             }
             $.ajax({
-                // replace with any php file to handle the retrieval of post data
                 url: "search.php",
                 method: "POST",
-                // pass the value, use the set value ex: query to retrieve in the $_POST() search.php
                 data: {
                     message_search: message_search
                 },
@@ -500,7 +479,6 @@ if ($user_data) {
                         messageSearchResults.html("<p class='px-4 py-6 text-gray-700'>No users found.</p>");
                     } else {
                         results.forEach(function(result) {
-                            // Create a list item for each result and append it to the container
                             var userContainer = $("<div>")
                                 .addClass("users-item flex items-center px-2 mt-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md")
                                 .attr("data-receiver-id", result.id)
@@ -509,22 +487,18 @@ if ($user_data) {
                                 .attr("data-receiver-barangay", result.barangay)
                                 .attr("data-receiver-image", result.image_src);
 
-                            // Create an image element for the user's image
                             var userImage = $("<img>")
                                 .addClass("w-10 h-10 rounded-full")
-                                .attr("src", result.image_src) // Set the image source
-                                .attr("alt", "User Avatar"); // Provide alt text for accessibility
+                                .attr("src", result.image_src)
+                                .attr("alt", "User Avatar");
 
-                            // Create a span for the user's name
                             var userName = $("<span>")
                                 .addClass("text-base font-semibold ml-3")
-                                .text(result.first_name + " " + result.last_name); // You can adjust the text as needed
+                                .text(result.first_name + " " + result.last_name);
 
-                            // Append the image and name to the user container
                             userImage.appendTo(userContainer);
                             userName.appendTo(userContainer);
 
-                            // Append the user container to the search results container
                             userContainer.appendTo(messageSearchResults);
                         });
 

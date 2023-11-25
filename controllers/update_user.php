@@ -19,11 +19,9 @@ if (isset($_SESSION['user_id']) && isset($_POST['first_name']) && isset($_POST['
         $response = ['success' => false];
     }
 
-    // Send JSON response back to the client
     header('Content-Type: application/json');
     echo json_encode($response);
 } else {
-    // Invalid request
     $response = ['success' => false];
     header('Content-Type: application/json');
     echo json_encode($response);

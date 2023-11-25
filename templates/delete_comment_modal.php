@@ -42,12 +42,10 @@
 <script>
     $(document).ready(function() {
 
-        // Close the edit modal when clicking the close button
         $('#closeCommentModal').click(function() {
             $('#deleteCommentModal').fadeOut();
         });
 
-        // Close the edit modal when clicking outside the modal content
         $(window).click(function(e) {
             if (e.target == $('#deleteCommentModal')[0]) {
                 $('#deleteCommentModal').fadeOut();

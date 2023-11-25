@@ -34,7 +34,7 @@ if (!empty($post_comment)) {
 
             $image_html = <<<HTML
             <a class="comment-image-link">
-                <img id="comment-image-$comment_id" src="$image_url" alt="Comment Image" class="w-full max-h-96 object-cover mb-4 rounded-md">
+                <img id="comment-image-$comment_id" src="$image_url" alt="" class="w-full max-h-96 object-cover mb-4 rounded-md">
             </a>
             HTML;
         } else {
@@ -45,7 +45,6 @@ if (!empty($post_comment)) {
         HTML;
         }
 
-        // Generate HTML markup for each post
         echo <<<HTML
         <div class='flex items-center justify-center w-full mx-auto mt-4 px-3 md:px-6' id="comment-$comment_id">
             <div class="rounded-xl border p-5 shadow-sm w-full bg-white" id="comment-container">
@@ -111,8 +110,14 @@ HTML;
                     </div>
                 </div>
               
-                <!-- <input type="hidden" name="editCommentImage" id="editCommentImage" value="$image_url"> -->
-                $image_html
+                <div id="image-container" class="relative">
+                    $image_html
+                    <div id="removeImageContainer-$comment_id" class="hidden p-1 bg-white rounded-full absolute top-2 right-2">
+                        <svg id="removeImage" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                </div>
               
                 <div class="">
                     <div class="flex items-center justify-between text-slate-500">
@@ -143,7 +148,7 @@ include './templates/delete_comment_modal.php';
 <script>
     $(document).ready(function() {
         $('.like-comment-btn').click(function() {
-            var $button = $(this); // Store the button element
+            var $button = $(this);
             var commentId = $button.data('comment-id');
             var likeCount = $button.find('.comment-like-count');
 
@@ -175,9 +180,6 @@ include './templates/delete_comment_modal.php';
             deleteBtn.addEventListener('click', (event) => {
                 const commentId = event.currentTarget.dataset.commentId;
 
-                console.log('Edit clicked!');
-                console.log('comment id: ', commentId);
-
                 $('#deleteCommentId').val(commentId);
 
                 $('#deleteCommentModal').fadeIn();
@@ -188,27 +190,28 @@ include './templates/delete_comment_modal.php';
         document.querySelectorAll('.edit-comment-btn').forEach((editBtn) => {
             editBtn.addEventListener('click', (event) => {
                 const container = editBtn.closest('#comment-container');
-                console.log('Edit clicked!');
+                const removeImageContainer = editBtn.closest('#image-container');
 
                 const commentParent = event.currentTarget.dataset.commentParent;
                 const commentId = event.currentTarget.dataset.commentId;
                 const commentContent = event.currentTarget.dataset.commentContent;
                 const imageContent = event.currentTarget.dataset.commentSrc;
 
-                console.log(commentId, commentContent, imageContent);
-
                 if (container) {
                     const commentText = container.querySelector('.comment');
+                    const removeIcon = container.querySelector(`#removeImageContainer-${commentId}`);
+
+                    if (removeIcon) {
+                        removeIcon.style.display = 'block';
+                    }
 
                     if (commentText) {
                         commentText.style.display = 'none';
 
-                        // Show the edit comment form
                         const editForm = container.querySelector('.edit-comment-form');
                         if (editForm) {
                             editForm.style.display = 'block';
 
-                            // Set the current comment content in the textarea
                             const textarea = editForm.querySelector('.edit-comment-textarea');
                             textarea.value = commentText.querySelector('p').textContent;
                         } else {
@@ -223,40 +226,54 @@ include './templates/delete_comment_modal.php';
                     console.error('Container with class "comment-container" not found');
                 }
 
+                const removeIcon = container.querySelector(`#removeImageContainer-${commentId}`);
+                if (removeIcon) {
+                    removeIcon.addEventListener('click', () => {
+                        const commentImage = container.querySelector(`#comment-image-${commentId}`);
+
+                        commentImage.setAttribute('data-original-src', commentImage.src);
+
+                        commentImage.src = "";
+                    })
+                }
+
                 const cancelButton = container.querySelector('.cancel-comment-btn');
                 if (cancelButton) {
                     cancelButton.addEventListener('click', () => {
                         const editForm = container.querySelector('.edit-comment-form');
                         const commentText = container.querySelector('.comment');
-                        const commentImage = container.querySelector(`#comment-image-${commentId}`); // Update the ID selector
+                        const commentImage = container.querySelector(`#comment-image-${commentId}`);
+                        const removeIcon = container.querySelector(`#removeImageContainer-${commentId}`);
+                        const inputlabel = container.querySelector(`#commentFileName-${commentId}`);
 
                         const fileInput = container.querySelector(`#editFileInput-${commentId}`);
                         if (fileInput) {
                             if (fileInput.files.length > 0) {
-                                fileInput.value = ''; // Reset the file input
+                                fileInput.value = '';
                                 const originalImageSrc = commentImage.getAttribute('data-original-src');
                                 commentImage.src = originalImageSrc;
                             }
                         }
 
+                        const originalImageSrc = commentImage.getAttribute('data-original-src');
+                        commentImage.src = originalImageSrc;
 
-
+                        inputlabel.textContent = "No files selected";
+                        removeIcon.style.display = 'none';
                         editForm.style.display = 'none';
                         commentText.style.display = 'block';
                     });
                 }
 
-                const fileInput = container.querySelector(`#editFileInput-${commentId}`); // Update the ID selector
+                const fileInput = container.querySelector(`#editFileInput-${commentId}`);
                 if (fileInput) {
                     fileInput.addEventListener('change', (event) => {
                         const fileName = event.target.files[0].name;
-                        const commentFileName = container.querySelector(`#commentFileName-${commentId}`); // Update the ID selector
-                        const commentImage = container.querySelector(`#comment-image-${commentId}`); // Update the ID selector
+                        const commentFileName = container.querySelector(`#commentFileName-${commentId}`);
+                        const commentImage = container.querySelector(`#comment-image-${commentId}`);
 
-                        // Update the text of commentFileName
                         commentFileName.textContent = fileName;
 
-                        // Display the selected image
                         const reader = new FileReader();
                         reader.onload = function() {
                             commentImage.src = reader.result;
@@ -294,7 +311,6 @@ include './templates/delete_comment_modal.php';
                             processData: false,
                             contentType: false,
                             success: function(response) {
-                                console.log('saved!');
                                 const commentText = container.querySelector('.comment');
                                 commentText.textContent = updatedContent;
 
@@ -302,12 +318,11 @@ include './templates/delete_comment_modal.php';
                                 editForm.style.display = 'none';
 
                                 fileInput.value = '';
-                                const commentFileName = container.querySelector(`#commentFileName-${commentId}`); // Update the ID selector
+                                const commentFileName = container.querySelector(`#commentFileName-${commentId}`);
                                 commentFileName.textContent = 'No files selected';
                             },
                             error: function(error) {
                                 console.error('Error:', error);
-                                // Handle error response from the server
                             }
                         });
                     });

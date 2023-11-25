@@ -26,10 +26,8 @@ class Posts
     {
         $db = new Database();
 
-        // Query to update the post by ID
         $query = 'UPDATE posts SET post_content = ?, image_src = ? WHERE post_id = ?';
 
-        // Bind the parameters
         $params = [$content, $image_src, $post_id];
 
         $result = $db->save($query, $params);
@@ -54,20 +52,17 @@ class Posts
     {
         $db = new Database();
 
-        // Query to retrieve all posts
         $query = 'SELECT * FROM posts';
 
         $result = $db->read($query);
 
         if ($result->num_rows > 0) {
-            // Fetch all posts data into an array
             $posts = [];
             while ($row = $result->fetch_assoc()) {
                 $posts[] = $row;
             }
             return $posts;
         } else {
-            // No posts found
             return [];
         }
     }
@@ -78,7 +73,6 @@ class Posts
 
         $query = 'INSERT INTO posts (post_content, image_src, author, post_type, created_at) VALUES (?, ?, ?, ?, NOW())';
 
-        // Assuming there's no content for profile updates, you can use an empty string for $content
         $content = '';
 
         $params = [$content, $image_src, $author, $post_type];
@@ -104,14 +98,12 @@ class Posts
                   WHERE posts.author_barangay = ? AND posts.post_type != 'Profile'
                   ORDER BY created_at DESC";
 
-        // Bind the parameter
         $params = [$barangay];
 
         $result = $db->read($query, $params);
 
         if ($result) {
             if ($result->num_rows > 0) {
-                // Fetch all posts data into an array
                 $posts = [];
                 while ($row = $result->fetch_assoc()) {
                     $posts[] = $row;
@@ -152,14 +144,12 @@ class Posts
         $result = $db->read($query);
 
         if ($result->num_rows > 0) {
-            // Fetch all posts data into an array
             $posts = [];
             while ($row = $result->fetch_assoc()) {
                 $posts[] = $row;
             }
             return $posts;
         } else {
-            // No posts found
             return [];
         }
     }
@@ -174,11 +164,9 @@ class Posts
         $result = $db->read($query, $params);
 
         if ($result->num_rows === 1) {
-            // Fetch the post data
             $post = $result->fetch_assoc();
             return $post;
         } else {
-            // Post not found
             return null;
         }
     }
@@ -187,7 +175,6 @@ class Posts
     {
         $db = new Database();
 
-        // Query to retrieve post information along with the number of likes
         $query = 'SELECT posts.*, users.first_name, users.last_name, users.barangay, users.role, users.gender,
                  COUNT(likes.like_id) AS num_likes,
                  (SELECT COUNT(*) FROM comments WHERE parent_post = posts.post_id) AS num_comments
@@ -197,18 +184,28 @@ class Posts
               WHERE posts.post_id = ?
               GROUP BY posts.post_id';
 
-        // Bind the parameter
         $params = [$post_id];
 
         $result = $db->read($query, $params);
 
         if ($result->num_rows === 1) {
-            // Fetch the post data with the number of likes
             $post = $result->fetch_assoc();
             return $post;
         } else {
-            // Post not found
             return null;
         }
+    }
+
+    public function delete_posts_by_author($author_id)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM posts WHERE author = ?';
+
+        $params = [$author_id];
+
+        $result = $db->save($query, $params);
+
+        return $result ? true : false;
     }
 }

@@ -16,3 +16,4 @@ include(dirname(__DIR__)  . '/classes/search.php');
 include(dirname(__DIR__)  . '/classes/messages.php');
 include(dirname(__DIR__)  . '/classes/follow.php');
 include(dirname(__DIR__)  . '/classes/notifications.php');
+include(dirname(__DIR__)  . '/classes/barangays.php');

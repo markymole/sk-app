@@ -76,13 +76,11 @@ if ($notifications !== false) {
                 $backgroundColor = 'bg-yellow-600';
                 $redirect = "profile.php?user_id=$notif_fro_id";
             } else {
-                // Default icon and background color
                 $icon = '<svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">...</svg>';
                 $backgroundColor = 'bg-gray-600';
                 $redirect = "post.php?post_id=$notif_post_id";
             }
 
-            // Append the notification HTML to the $notificationsHTML variable
             $notificationsHTML .= <<<HTML
             <a href="$redirect" class="$bg_class" data-notification-id="$notification_id" id="notification-item">
                 <div class="flex-shrink-0">
@@ -102,7 +100,6 @@ HTML;
         $notificationsHTML = '<div class="text-gray-600 text-sm px-6 py-4">No Notifications</div>';
     }
 
-    // Return the notifications as JSON in the AJAX response
     echo json_encode(['notifications' => $notificationsHTML]);
 } else {
     http_response_code(500);

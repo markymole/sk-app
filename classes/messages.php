@@ -184,4 +184,17 @@ class Messages
 
         return $decrypted;
     }
+
+    public function delete_user_messages($userId)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM messages WHERE sender_id = ? OR receiver_id = ?';
+
+        $params = [$userId, $userId];
+
+        $result = $db->save($query, $params);
+
+        return $result ? true : false;
+    }
 }

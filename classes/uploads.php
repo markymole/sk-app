@@ -45,7 +45,7 @@ class Uploads
             }
         }
 
-        return false; // File upload failed or no file was uploaded
+        return false;
     }
 
     public function updateCommentImage($user_id, $post_id)
@@ -71,14 +71,11 @@ class Uploads
 
             $image_path = "$user_posts_directory/$unique_filename";
 
-            // Move the uploaded new image to the specified path
             if (move_uploaded_file($_FILES['commentImage']['tmp_name'], $image_path)) {
-                // Return the new image path
                 return $image_path;
             }
         }
 
-        // If any error occurs, return false
         return false;
     }
 
@@ -91,13 +88,12 @@ class Uploads
             mkdir($user_posts_directory, 0777, true);
         }
 
-        $image_path = "$user_posts_directory/$unique_filename"; // Define the image path
+        $image_path = "$user_posts_directory/$unique_filename";
 
-        // Move the uploaded image to the specified path
         if (move_uploaded_file($_FILES['post_image']['tmp_name'], $image_path)) {
-            return $image_path; // Return the file path if image saved successfully
+            return $image_path;
         } else {
-            return false; // File upload failed
+            return false;
         }
     }
 
@@ -124,14 +120,33 @@ class Uploads
 
             $image_path = "$user_posts_directory/$unique_filename";
 
-            // Move the uploaded new image to the specified path
             if (move_uploaded_file($_FILES['new_post_image']['tmp_name'], $image_path)) {
-                // Return the new image path
                 return $image_path;
             }
         }
 
-        // If any error occurs, return false
+        return false;
+    }
+
+    public function removePostImage($post_id)
+    {
+        $query = 'SELECT image_src FROM posts WHERE post_id = ? LIMIT 1';
+        $params = [$post_id];
+        $result = $this->db->read($query, $params);
+
+        if ($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            $old_image_path = $row['image_src'];
+
+            if (file_exists($old_image_path)) {
+                unlink($old_image_path);
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+
         return false;
     }
 

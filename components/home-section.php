@@ -119,7 +119,6 @@
                 },
                 success: function(response) {
                     $('#post-container').html(response);
-                    console.log('success');
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error: ' + error);
@@ -134,7 +133,6 @@
                 },
                 success: function(userResponse) {
                     $('.user-container').html(userResponse);
-                    console.log('User filter success');
                 },
                 error: function(xhr, status, error) {
                     console.error('User AJAX Error: ' + error);
@@ -153,7 +151,7 @@
         });
 
         $('.like-post-btn').click(function() {
-            var $button = $(this); // Store the button element
+            var $button = $(this);
             var postId = $button.data('post-id');
             var likeCount = $button.find('.like-count');
 
@@ -209,14 +207,12 @@
             $('#user-modal').fadeIn();
         });
 
-        // Close the user modal when "Close" button is clicked
         $('#closeUserModal').click(function() {
             $('#user-modal').fadeOut();
         });
 
         var activePostAction = null;
 
-        // Function to close the active post-action
         function closeActivePostAction() {
             if (activePostAction !== null) {
                 activePostAction.hide();
@@ -234,16 +230,13 @@
             } else {
                 closeActivePostAction();
 
-                // Show the clicked post-action
                 postActionDiv.show();
                 activePostAction = postActionDiv;
             }
 
-            // Prevent the event from propagating and closing immediately
             return false;
         });
 
-        // Close the active post-action when clicking outside
         $(document).click(function(e) {
             if (activePostAction !== null && !activePostAction.is(e.target) && activePostAction.has(e.target).length === 0) {
                 closeActivePostAction();

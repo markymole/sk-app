@@ -4,7 +4,6 @@ require_once(dirname(__DIR__) . '/config/autoload.php');
 $follow = new Follow();
 $notification = new Notifications();
 
-// Check if the request is a POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $follower = $_SESSION['user_id'];
     $following = $_POST['user_id'];

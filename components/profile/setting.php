@@ -52,33 +52,12 @@ if (isset($_SESSION['user_id'])) {
             <div class="w-full">
                 <label for="role" class="font-semibold text-sm text-gray-600 pb-1 block">Role</label>
                 <input type="role" name="role" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $role ?>" readonly />
-                <!-- <select name="role" id="role" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" readonly>
-                    <option value="" <?php echo ($role === '') ? 'selected' : ''; ?>>Select role</option>
-                    <option value="SK Chairmain" <?php echo ($role === 'SK Chairmain') ? 'selected' : ''; ?>>SK Chairmain</option>
-                    <option value="SK Chairwoman" <?php echo ($role === 'SK Chairwoman') ? 'selected' : ''; ?>>SK Chairwoman</option>
-                    <option value="Kagawad" <?php echo ($role === 'Kagawad') ? 'selected' : ''; ?>>Kagawad</option>
-                    <option value="Secretary" <?php echo ($role === 'Secretary') ? 'selected' : ''; ?>>Secretary</option>
-                    <option value="Treasurer" <?php echo ($role === 'Treasurer') ? 'selected' : ''; ?>>Treasurer</option>
-                    <option value="Member" <?php echo ($role === 'Member') ? 'selected' : ''; ?>>Member</option>
-                </select> -->
             </div>
 
         </div>
 
         <label for="barangay" class="font-semibold text-sm text-gray-600 pb-1">Barangay</label>
-        <input type="barangay" name="barangay" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $barangay ?>" readonly />
-        <!-- <select name="barangay" id="barangay" required class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full">
-            <option value="" <?php echo ($barangay === '') ? 'selected' : ''; ?>>Choose origin barangay</option>
-            <option value="Amsic" <?php echo ($barangay === 'Amsic') ? 'selected' : ''; ?>>Amsic</option>
-            <option value="Balibago" <?php echo ($barangay === 'Balibago') ? 'selected' : ''; ?>>Balibago</option>
-            <option value="Anunas" <?php echo ($barangay === 'Anunas') ? 'selected' : ''; ?>>Anunas</option>
-            <option value="Lourdes Northwest" <?php echo ($barangay === 'Lourdes Northwest') ? 'selected' : ''; ?>>Lourdes Northwest</option>
-            <option value="Malabanias" <?php echo ($barangay === 'Malabanias') ? 'selected' : ''; ?>>Malabanias</option>
-            <option value="Margot" <?php echo ($barangay === 'Margot') ? 'selected' : ''; ?>>Margot</option>
-            <option value="Pampang" <?php echo ($barangay === 'Pampang') ? 'selected' : ''; ?>>Pampang</option>
-            <option value="Sapangbato" <?php echo ($barangay === 'Sapangbato') ? 'selected' : ''; ?>>Sapangbato</option>
-            <option value="Sta. Teresita" <?php echo ($barangay === 'Sta. Teresita') ? 'selected' : ''; ?>>Sta. Teresita</option>
-        </select> -->
+        <input type="text" name="barangay" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $barangay ?>" readonly />
 
         <h5 class="bold text-gray-700 font-semibold mb-4">Account Information</h5>
 
@@ -89,7 +68,7 @@ if (isset($_SESSION['user_id'])) {
         <input type="email" name="email" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $email ?>" />
 
         <div>
-            <button type="button" class="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-600 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">Delete Account</button>
+            <button id="deleteAccountBtn" type="button" class="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-600 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">Delete Account</button>
             <button type="submit" class="transition duration-200 bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-600 focus:shadow-sm focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
                 <span class="inline-block mr-2">Save</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -98,7 +77,59 @@ if (isset($_SESSION['user_id'])) {
             </button>
         </div>
     </form>
+
+    <div class="account_modal" id="deleteAccountModal">
+        <div class="account_modal_content mx-auto rounded-lg">
+            <div id="deleteForm">
+                <input type="hidden" name="post_id" id="deletePostID" value="">
+                <div class="bg-white mt-6 mx-auto flex flex-col text-gray-800 rounded-lg border-gray-300 p-4 shadow-sm w-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <p class="text-red-500 font-bold uppercase text-lg">You are trying to delete your account</p>
+                    <p class="mb-4 font-medium">Confirm your password to proceed</p>
+                    <input type="password" name="cpassworddel" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+                    <p class="delete-status text-red-500"></p>
+                    <div class="mt-6 buttons gap-2">
+                        <button id="closeAccountModal" type="button" class="btn border border-gray-300 p-1 px-4 font-semibold cursor-pointer text-gray-500 ml-auto rounded">Cancel</button>
+                        <button disabled id="confirmDeleteBtn" type="button" class="inline-flex items-center justify-center px-6 py-1 lg:py-1.5 mr-3 text-base text-center text-white rounded bg-red-400 hover:bg-red-500 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<style>
+    .account_modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .account_modal_content {
+        position: absolute;
+        min-width: 30%;
+        max-width: 100%;
+        min-height: 20vh;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+    }
+
+    #confirmDeleteBtn:disabled {
+        cursor: not-allowed;
+        background-color: gray;
+    }
+</style>
 
 <script>
     $(document).ready(function() {
@@ -116,6 +147,52 @@ if (isset($_SESSION['user_id'])) {
                     } else {
                         alert("Failed to update user information.");
                     }
+                }
+            });
+        });
+
+        $('#deleteAccountBtn').click(function(e) {
+            e.preventDefault();
+            $('#deleteAccountModal').fadeIn();
+        });
+
+        $('#closeAccountModal').click(function() {
+            $('#deleteAccountModal').fadeOut();
+        });
+
+        $('input[name="cpassworddel"]').on('input', function() {
+            var passwordToDelete = $(this).val();
+            var confirmDeleteBtn = $('#confirmDeleteBtn');
+
+            if (passwordToDelete.trim() === '') {
+                confirmDeleteBtn.prop('disabled', true);
+            } else {
+                confirmDeleteBtn.prop('disabled', false);
+            }
+        });
+
+        $('#confirmDeleteBtn').click(function() {
+            var passwordToDelete = $('input[name="cpassworddel"]').val();
+
+            $.ajax({
+                type: 'POST',
+                url: './controllers/delete_account.php',
+                data: {
+                    cpassworddel: passwordToDelete
+                },
+                success: function(response) {
+                    const parsedResponse = JSON.parse(response);
+                    if (parsedResponse.success) {
+                        console.log('account deleted');
+                        location.reload();
+                    } else {
+                        $('.delete-status').text(parsedResponse.message);
+                        console.log('response: ', parsedResponse.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error deleting account:', error);
+                    $('.delete-status').text('Error: ' + error); // Display the error status
                 }
             });
         });

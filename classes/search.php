@@ -9,7 +9,7 @@ class Search
     function searchUsers($searchTerm, $loggedUser)
     {
         $db = new Database();
-        $images = new Images(); // Create an instance of the Images class
+        $images = new Images();
 
         $query = "SELECT users.id, users.first_name, users.last_name, users.gender
                   FROM users 
@@ -17,7 +17,7 @@ class Search
                   OR first_name LIKE ? 
                   OR last_name LIKE ?)
                   AND id != ?
-                  LIMIT 5"; // Use a parameter for the LIMIT
+                  LIMIT 5";
 
         $param = '%' . $searchTerm . '%';
         $params = [$param, $param, $param, $loggedUser];
@@ -27,10 +27,8 @@ class Search
         if ($result->num_rows > 0) {
             $users = [];
             while ($row = $result->fetch_assoc()) {
-                // Fetch the user's image source based on the user's ID and gender
                 $image_src = $images->getUserProfileImage($row['id'], $row['gender']);
 
-                // Add user data including the image source to the array
                 $users[] = [
                     'id' => $row['id'],
                     'first_name' => $row['first_name'],

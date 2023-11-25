@@ -17,7 +17,6 @@ if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
     $user_data = $user->getLoggedInUserInfo($user_id);
 } else {
-    // If not provided, use the user_id from the session
     $user_id = $_SESSION['user_id'];
     $user_data = $user->authenticate($user_id);
 }
@@ -60,7 +59,6 @@ if ($user_data) {
 
             <?php include(__DIR__ . '/templates/cover.php'); ?>
 
-            <!-- profile content -->
             <div class="px-3 lg:px-0 max-w-5xl mx-auto mt-4">
                 <div class="bg-white border border-gray-300 rounded-lg ">
                     <!-- About section -->
@@ -70,28 +68,22 @@ if ($user_data) {
 
                     <!-- Followers section -->
                     <div id="followers-section" style="display: none">
-                        <!-- Content of the Followers section -->
                         <?php include './components/profile/followers-section.php' ?>
-
-
                     </div>
 
                     <!-- Following section -->
                     <div id="following-section" style="display: none">
-                        <!-- Content of the Following section -->
                         <?php include './components/profile/following-section.php' ?>
                     </div>
 
                     <!-- Photos section -->
                     <div id="photos-section" style="display: none">
-                        <!-- Content of the Photos section -->
                         <?php include './components/profile/photos-section.php' ?>
 
                     </div>
 
                     <!-- Settings section -->
                     <div id="settings-section" style="display: none">
-                        <!-- Content of the Settings section -->
                         <?php include './components/profile/setting.php' ?>
 
                     </div>

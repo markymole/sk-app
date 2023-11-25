@@ -12,7 +12,7 @@ class Images
 
     public function getUserProfileImage($id, $gender)
     {
-        $query = 'SELECT image_src FROM posts WHERE author = ? AND post_type = "profile" ORDER BY created_at DESC LIMIT 1';
+        $query = 'SELECT image_src FROM posts WHERE author = ? AND post_type = "Profile" ORDER BY created_at DESC LIMIT 1';
         $params = [$id];
 
         $result = $this->db->read($query, $params);
@@ -39,12 +39,34 @@ class Images
         $profileImages = [];
 
         if ($result->num_rows > 0) {
-            // Fetch all user's profile image_src
             while ($row = $result->fetch_assoc()) {
                 $profileImages[] = $row['image_src'];
             }
         }
 
         return $profileImages;
+    }
+
+    public function countUserProfileImages($id)
+    {
+        $query = 'SELECT COUNT(*) AS image_count FROM posts WHERE author = ? AND post_type = "Profile"';
+        $params = [$id];
+
+        $result = $this->db->read($query, $params);
+
+        if ($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            return $row['image_count'];
+        } else {
+            return 0;
+        }
+    }
+
+    public function deleteProfileImage($user_id, $image_src)
+    {
+        $query = "DELETE FROM posts WHERE author = ? AND post_type = 'Profile' AND image_src = ?";
+        $params = [$user_id, $image_src];
+
+        return $this->db->save($query, $params);
     }
 }

@@ -115,7 +115,6 @@ include './templates/delete_modal.php';
 
         var activePostAction = null;
 
-        // Function to close the active post-action
         function closeActivePostAction() {
             if (activePostAction !== null) {
                 activePostAction.hide();
@@ -123,29 +122,23 @@ include './templates/delete_modal.php';
             }
         }
 
-        // Event handler for post-setting-button click
         $('.post-setting-button').click(function() {
             var postId = $(this).data('key-setting');
             var postActionDiv = $('#post-action-' + postId);
 
-            // Toggle post-action visibility
             if (postActionDiv.is(':visible')) {
                 postActionDiv.hide();
                 activePostAction = null;
             } else {
-                // Close any previously active post-action
                 closeActivePostAction();
 
-                // Show the clicked post-action
                 postActionDiv.show();
                 activePostAction = postActionDiv;
             }
 
-            // Prevent the event from propagating and closing immediately
             return false;
         });
 
-        // Close the active post-action when clicking outside
         $(document).click(function(e) {
             if (activePostAction !== null && !activePostAction.is(e.target) && activePostAction.has(e.target).length === 0) {
                 closeActivePostAction();

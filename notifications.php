@@ -76,16 +76,15 @@ if ($user_data) {
                 } else if (response.error) {
                     console.log('error');
                 }
-                setTimeout(loadNotifications, 1000);
+                setTimeout(loadNotifications, 2000);
             },
             error: function(xhr, status, error) {
                 console.error('Error loading notifications: ' + error);
 
-                setTimeout(loadNotifications, 1000);
+                setTimeout(loadNotifications, 2000);
             }
         });
     }
 
-    // Initial call to load notifications
     loadNotifications();
 </script>

@@ -48,7 +48,6 @@
                         if (response === "success") {
                             $("#response-message").html("Message sent successfully!").addClass("text-green-500");
                         } else {
-                            // Email sending failed
                             $("#response-message").html("Message could not be sent.").addClass("text-red-500");
                         }
                     },

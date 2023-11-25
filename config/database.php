@@ -31,10 +31,8 @@ class Database
         $user = $envConfig['DB_USER'];
         $pass = $envConfig['DB_PASS'];
 
-        // Create a MySQLi connection
         $this->db = new mysqli($host, $user, $pass, $dbname);
 
-        // Check for connection errors
         if ($this->db->connect_error) {
             error_log("Database connection failed: " . $this->db->connect_error);
             die("Database connection failed: " . $this->db->connect_error);
@@ -56,11 +54,11 @@ class Database
 
             foreach ($params as $param) {
                 if (is_int($param)) {
-                    $paramTypes .= 'i'; // Integer
+                    $paramTypes .= 'i';
                 } elseif (is_double($param)) {
-                    $paramTypes .= 'd'; // Double
+                    $paramTypes .= 'd';
                 } else {
-                    $paramTypes .= 's'; // String (default)
+                    $paramTypes .= 's';
                 }
 
                 $paramValues[] = $param;
@@ -80,7 +78,6 @@ class Database
         return $stmt->get_result();
     }
 
-    // Function to execute a query for saving data
     public function save($query, $params = [])
     {
         $stmt = $this->db->prepare($query);
@@ -96,11 +93,11 @@ class Database
 
             foreach ($params as $param) {
                 if (is_int($param)) {
-                    $paramTypes .= 'i'; // Integer
+                    $paramTypes .= 'i';
                 } elseif (is_double($param)) {
-                    $paramTypes .= 'd'; // Double
+                    $paramTypes .= 'd';
                 } else {
-                    $paramTypes .= 's'; // String (default)
+                    $paramTypes .= 's';
                 }
 
                 $paramValues[] = $param;
@@ -117,10 +114,9 @@ class Database
             return false;
         }
 
-        return true; // Return true on successful save
+        return true;
     }
 
-    // Helper function to pass parameters by reference
     private function refValues($arr)
     {
         $refs = [];

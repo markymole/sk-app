@@ -126,6 +126,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 } else {
                     $image_path = $_POST['editImagePreviewContainer'];
+                    if ($image_path !== '') {
+                        $image_path = $image_path;
+                    } else {
+                        $removed = $uploads->removePostImage($post_id);
+                        if ($removed) {
+                            $image_path = '';
+                        } else {
+                            $image_path = '';
+                        }
+                    }
                 }
 
                 $result = $post->edit_post($post_id, $post_content, $image_path);

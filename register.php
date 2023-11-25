@@ -2,6 +2,13 @@
 
 require_once('./config/autoload.php'); ?>
 
+<?php
+
+$barangays = new Barangays;
+
+$barangay_list = $barangays->getAllBarangays();
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -74,19 +81,20 @@ require_once('./config/autoload.php'); ?>
                     <label for="barangay" class="font-semibold text-sm text-gray-600 pb-1 block">Barangay</label>
                     <select name="barangay" id="barangay" class="bg-white border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full">
                         <option value="" selected disabled hidden>Select barangay</option>
-                        <option> Amsic </option>
-                        <option> Anunas </option>
-                        <option> Lourdes Northwest </option>
-                        <option> Balibago </option>
-                        <option> Malabanias </option>
-                        <option> Margot </option>
-                        <option> Pampang </option>
-                        <option> Sapangbato </option>
-                        <option> Sta. Teresita </option>
-
+                        <?php
+                        if (isset($barangay_list)) {
+                            foreach ($barangay_list as $barangay) {
+                                echo "<option>" . $barangay['name'] . "</option>";
+                            }
+                        }
+                        ?>
                     </select>
 
-                    <h5 class="bold text-gray-700 font-semibold mb-4">Account Information</h5>
+                    <label for="barangay" class="font-semibold text-sm text-gray-600 pb-1 block">Barangay Secret Key</label>
+                    <input id="barangaySecretKey" type="text" name="secretkey" class="border rounded-lg px-3 py-2 mt-1 text-sm w-full" />
+                    <span class="text-sm text-gray-500 mb-5">(Please enter the secret key provided to you by the admin)</span>
+
+                    <h5 class="bold text-gray-700 font-semibold mb-4 mt-6">Account Information</h5>
 
                     <label for="username" class="font-semibold text-sm text-gray-600 pb-1 block">Username</label>
                     <input id="username" type="text" name="username" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
@@ -218,6 +226,7 @@ require_once('./config/autoload.php'); ?>
             const confirm_password = $('#confirm_password').val();
             const role = $('#role').val();
             const barangay = $('#barangay').val();
+            const secretkey = $('#barangaySecretKey').val();
             const gender = $('#gender').val();
 
             var validated_form = validateForm(
@@ -229,6 +238,7 @@ require_once('./config/autoload.php'); ?>
                 confirm_password,
                 role,
                 barangay,
+                secretkey,
                 gender
             );
 
@@ -248,6 +258,7 @@ require_once('./config/autoload.php'); ?>
                         confirm_password: confirm_password,
                         role: role,
                         barangay: barangay,
+                        secretkey: secretkey,
                         gender: gender
                     },
                     success: function(response) {
@@ -268,7 +279,7 @@ require_once('./config/autoload.php'); ?>
             }
         });
 
-        function validateForm(firstname, lastname, username, email, password, confirm_password, role, barangay, gender) {
+        function validateForm(firstname, lastname, username, email, password, confirm_password, role, barangay, secretkey, gender) {
             if (!firstname || firstname === '') {
                 return "Please enter your first name.";
             }
@@ -287,6 +298,10 @@ require_once('./config/autoload.php'); ?>
 
             if (!barangay || barangay === '') {
                 return "Please select a barangay.";
+            }
+
+            if (!secretkey || secretkey === '') {
+                return "Please enter your barangay's provided secret key";
             }
 
             if (!username || username === '') {

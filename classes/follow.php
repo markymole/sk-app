@@ -70,7 +70,6 @@ class Follow
         }
     }
 
-
     public function isFollowing($follower, $following)
     {
         $db = new Database();
@@ -81,5 +80,52 @@ class Follow
         $result = $db->read($query, $params);
 
         return $result->num_rows > 0;
+    }
+
+    public function countFollowers($user_id)
+    {
+        $db = new Database();
+
+        $query = "SELECT COUNT(follower) AS follower_count FROM followers WHERE following = ?";
+        $params = [$user_id];
+
+        $result = $db->read($query, $params);
+
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+            return $data['follower_count'];
+        } else {
+            return 0;
+        }
+    }
+
+    public function countFollowing($user_id)
+    {
+        $db = new Database();
+
+        $query = "SELECT COUNT(following) AS following_count FROM followers WHERE follower = ?";
+        $params = [$user_id];
+
+        $result = $db->read($query, $params);
+
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+            return $data['following_count'];
+        } else {
+            return 0;
+        }
+    }
+
+    public function delete_follow_data($user_id)
+    {
+        $db = new Database();
+
+        $query = 'DELETE FROM followers WHERE follower = ? OR following = ?';
+
+        $params = [$user_id, $user_id];
+
+        $result = $db->save($query, $params);
+
+        return $result ? true : false;
     }
 }
