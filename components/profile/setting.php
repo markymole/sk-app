@@ -68,7 +68,6 @@ if (isset($_SESSION['user_id'])) {
         <input type="email" name="email" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" value="<?php echo $email ?>" />
 
         <div>
-            <button id="deleteAccountBtn" type="button" class="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-600 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">Delete Account</button>
             <button type="submit" class="transition duration-200 bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-600 focus:shadow-sm focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
                 <span class="inline-block mr-2">Save</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -76,7 +75,40 @@ if (isset($_SESSION['user_id'])) {
                 </svg>
             </button>
         </div>
+
+
     </form>
+
+    <form id="update-password-form" method="post" class="px-5 py-7">
+        <h5 class="bold text-gray-700 font-semibold mb-4">Set New Password</h5>
+        <div>
+            <label for="old_password" class="font-semibold text-sm text-gray-600 pb-1 block">Old Password</label>
+            <input type="password" name="old_password" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+        </div>
+        <div class="flex flex gap-6">
+            <div class="w-full">
+                <label for="new_password" class="font-semibold text-sm text-gray-600 pb-1 block">New Password</label>
+                <input type="password" name="new_password" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+            </div>
+            <div class="w-full">
+                <label for="confirm_password" class="font-semibold text-sm text-gray-600 pb-1 block">Confirm Password</label>
+                <input type="password" name="confirm_password" required class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+            </div>
+        </div>
+        <button type="submit" class="transition duration-200 bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-600 focus:shadow-sm focus:ring-4 focus:ring-yellow-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+            <span class="inline-block mr-2">Save</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+        </button>
+    </form>
+
+    <div class="px-5 py-7">
+        <h5 class="bold text-gray-700 font-semibold mb-2">Delete Account</h5>
+        <p class="text-gray-600 text-sm mb-4">(This action cannot be undone)</p>
+        <button id="deleteAccountBtn" type="button" class="transition duration-200 bg-red-500 hover:bg-red-600 focus:bg-red-600 focus:shadow-sm focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-white w-fit px-6 py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">Delete Account</button>
+    </div>
+
 
     <div class="account_modal" id="deleteAccountModal">
         <div class="account_modal_content mx-auto rounded-lg">
@@ -98,6 +130,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
+
 </div>
 
 
@@ -146,6 +179,29 @@ if (isset($_SESSION['user_id'])) {
                         alert("User information updated successfully.");
                     } else {
                         alert("Failed to update user information.");
+                    }
+                }
+            });
+        });
+
+
+        $("#update-password-form").submit(function(e) {
+            e.preventDefault();
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "./controllers/update_password.php",
+                data: formData,
+                success: function(response) {
+                    const parsedRes = JSON.parse(response);
+                    if (parsedRes.success) {
+                        console.log('res: ', parsedRes.message);
+                        alert(parsedRes.message);
+                    } else {
+                        console.log('res: ', parsedRes.message);
+
+                        alert(parsedRes.message);
                     }
                 }
             });

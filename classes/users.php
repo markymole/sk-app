@@ -178,6 +178,23 @@ class Users
         }
     }
 
+
+    public function updatePassword($userId, $password)
+    {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = 'UPDATE users SET password = ? WHERE id = ?';
+        $params = [$hashedPassword, $userId];
+
+        $result = $this->db->save($query, $params);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function checkExistingUser($username, $email)
     {
         $query = 'SELECT id FROM users WHERE username = ? OR email = ?';
