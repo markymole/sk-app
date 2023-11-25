@@ -33,15 +33,12 @@
                 <div class="flex flex-col lg:flex-row items-start gap-2">
                     <label for="barangay-select" class="text-white">Select Barangay:</label>
                     <select id="barangay-select" class="text-white bg-gray-600 rounded-md px-4 py-1">
-                        <option value="Amsic" <?php echo ($barangay === 'Amsic') ? 'selected' : ''; ?>>Amsic</option>
-                        <option value="Balibago" <?php echo ($barangay === 'Balibago') ? 'selected' : ''; ?>>Balibago</option>
-                        <option value="Anunas" <?php echo ($barangay === 'Anunas') ? 'selected' : ''; ?>>Anunas</option>
-                        <option value="Lourdes Northwest" <?php echo ($barangay === 'Lourdes Northwest') ? 'selected' : ''; ?>>Lourdes Northwest</option>
-                        <option value="Malabanias" <?php echo ($barangay === 'Malabanias') ? 'selected' : ''; ?>>Malabanias</option>
-                        <option value="Margot" <?php echo ($barangay === 'Margot') ? 'selected' : ''; ?>>Margot</option>
-                        <option value="Pampang" <?php echo ($barangay === 'Pampang') ? 'selected' : ''; ?>>Pampang</option>
-                        <option value="Sapangbato" <?php echo ($barangay === 'Sapangbato') ? 'selected' : ''; ?>>Sapangbato</option>
-                        <option value="Sta. Teresita" <?php echo ($barangay === 'Sta. Teresita') ? 'selected' : ''; ?>>Sta. Teresita</option>
+                        <?php
+                        foreach ($barangay_list as $bar) {
+                            $selected = ($bar['name'] === $barangay) ? 'selected' : '';
+                            echo "<option value='{$bar['name']}' $selected>{$bar['name']}</option>";
+                        }
+                        ?>
                     </select>
                 </div>
                 <button id="showUserModal" class="flex lg:hidden text-white bg-gray-600 rounded-md px-4 py-1 text-sm">

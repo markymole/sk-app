@@ -9,7 +9,7 @@ $date = new General();
 $uploads = new Uploads();
 $message = new Messages();
 $notification = new Notifications();
-
+$barangays = new Barangays;
 
 $user_data = null;
 if (isset($_SESSION['user_id'])) {
@@ -27,7 +27,8 @@ if (isset($_SESSION['user_id'])) {
         $id = $firstname = $lastname = $username = $barangay = $gender = $role = 'Unknown';
     }
 } else {
-    $id = $firstname = $lastname = $username = $barangay = $gender = $role = 'Guest';
+    $id = $firstname = $lastname = $username = $gender = $role = 'Guest';
+    $barangay = 'All';
 }
 
 $postsPerPage = 6;
@@ -40,6 +41,9 @@ if (!$user_data || $barangay == "Guest" ||  $barangay == "Unknown") {
     $posts = $post->get_posts_by_barangay($barangay);
     $barangayUsers = $user->getUsersByBarangay($barangay);
 }
+
+$barangay_list = $barangays->getAllBarangays();
+
 ?>
 
 
