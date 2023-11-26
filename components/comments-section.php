@@ -102,7 +102,7 @@ HTML;
                                 </div>
                             </div>
                             <div>
-                                <button class="cancel-comment-btn bg-gray-200 text-black text-sm border-gray-600 px-4 py-1 rounded mt-2">Cancel</button>
+                                <button id="cancelBtn-$comment_id" class="cancel-comment-btn bg-gray-200 text-black text-sm border-gray-600 px-4 py-1 rounded mt-2">Cancel</button>
                                 <button class="save-comment-btn bg-yellow-400 text-white text-sm px-4 py-1 rounded mt-2">Save</button>
                             </div>
                         </div>
@@ -228,41 +228,56 @@ include './templates/delete_comment_modal.php';
 
                 const removeIcon = container.querySelector(`#removeImageContainer-${commentId}`);
                 if (removeIcon) {
-                    removeIcon.addEventListener('click', () => {
-                        const commentImage = container.querySelector(`#comment-image-${commentId}`);
-
-                        commentImage.setAttribute('data-original-src', commentImage.src);
-
-                        commentImage.src = "";
-                    })
+                    if (!removeIcon.hasAttribute('data-event-bound')) {
+                        removeIcon.setAttribute('data-event-bound', true);
+                        removeIcon.addEventListener('click', handleImageRemoval);
+                    }
                 }
 
-                const cancelButton = container.querySelector('.cancel-comment-btn');
+                function handleImageRemoval() {
+                    const commentImage = container.querySelector(`#comment-image-${commentId}`);
+                    console.log('remove trigger');
+                    commentImage.setAttribute('data-original-src', commentImage.src);
+                    commentImage.src = "";
+                }
+
+                const cancelButton = container.querySelector(`#cancelBtn-${commentId}`);
                 if (cancelButton) {
-                    cancelButton.addEventListener('click', () => {
-                        const editForm = container.querySelector('.edit-comment-form');
-                        const commentText = container.querySelector('.comment');
-                        const commentImage = container.querySelector(`#comment-image-${commentId}`);
-                        const removeIcon = container.querySelector(`#removeImageContainer-${commentId}`);
-                        const inputlabel = container.querySelector(`#commentFileName-${commentId}`);
+                    if (!cancelButton.hasAttribute('data-event-bound')) {
+                        cancelButton.setAttribute('data-event-bound', true);
+                        cancelButton.addEventListener('click', handleCancelClick);
+                    }
+                }
 
-                        const fileInput = container.querySelector(`#editFileInput-${commentId}`);
-                        if (fileInput) {
-                            if (fileInput.files.length > 0) {
-                                fileInput.value = '';
-                                const originalImageSrc = commentImage.getAttribute('data-original-src');
-                                commentImage.src = originalImageSrc;
-                            }
+                function handleCancelClick(e) {
+                    e.preventDefault();
+                    const editForm = container.querySelector('.edit-comment-form');
+                    const commentText = container.querySelector('.comment');
+                    const commentImage = container.querySelector(`#comment-image-${commentId}`);
+                    const removeIcon = container.querySelector(`#removeImageContainer-${commentId}`);
+                    const inputlabel = container.querySelector(`#commentFileName-${commentId}`);
+
+                    const fileInput = container.querySelector(`#editFileInput-${commentId}`);
+                    if (fileInput) {
+                        if (fileInput.files.length > 0) {
+                            fileInput.value = '';
+                            const originalImageSrc = commentImage.getAttribute('data-original-src');
+                            commentImage.src = originalImageSrc;
                         }
+                    }
 
-                        const originalImageSrc = commentImage.getAttribute('data-original-src');
-                        commentImage.src = originalImageSrc;
+                    const imageDataSrc = commentImage.getAttribute('data-original-src');
+                    if (imageDataSrc === null) {
+                        console.log('cancel null');
+                    } else {
+                        commentImage.src = imageDataSrc;
+                        commentImage.removeAttribute('data-original-src');
+                    }
 
-                        inputlabel.textContent = "No files selected";
-                        removeIcon.style.display = 'none';
-                        editForm.style.display = 'none';
-                        commentText.style.display = 'block';
-                    });
+                    inputlabel.textContent = "No files selected";
+                    removeIcon.style.display = 'none';
+                    editForm.style.display = 'none';
+                    commentText.style.display = 'block';
                 }
 
                 const fileInput = container.querySelector(`#editFileInput-${commentId}`);
@@ -294,6 +309,9 @@ include './templates/delete_comment_modal.php';
                         const fileInput = editForm.querySelector(`#editFileInput-${commentId}`);
                         const updatedImage = fileInput.files[0];
 
+                        const commentImage = container.querySelector(`#comment-image-${commentId}`);
+                        const originalImageSrc = commentImage.getAttribute('data-original-src');
+
                         const formData = new FormData();
                         formData.append('postParent', commentParent);
 
@@ -302,6 +320,11 @@ include './templates/delete_comment_modal.php';
 
                         if (updatedImage) {
                             formData.append('commentImage', updatedImage);
+                        }
+
+                        if (!updatedImage && originalImageSrc) {
+                            formData.append('imageRemoved', true);
+                            console.log('removed');
                         }
 
                         $.ajax({

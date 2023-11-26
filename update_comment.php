@@ -13,16 +13,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['postParent'])) {
         $commentId = $_POST['commentId'];
         $commentContent = $_POST['commentContent'];
-        $commentImage = $_FILES['commentImage'];
+        $commentImage = "";
+        $imageRemoved = false;
 
-        if ($commentImage['error'] === UPLOAD_ERR_OK) {
-            $image_path = $uploads->updateCommentImage($_SESSION['user_id'], $commentId);
-
-            if (!$image_path) {
-                echo "Error uploading file!";
-            }
+        if (isset($_FILES['commentImage'])) {
+            $commentImage = $_FILES['commentImage'];
         } else {
-            $image_path = "";
+            $commentImage = null;
+        }
+
+        if (isset($_POST['imageRemoved'])) {
+            $removed = $_POST['imageRemoved'];
+            if ($removed === true || $removed === 'true') {
+                $imageRemoved = true;
+            }
+        }
+
+        if ($imageRemoved) {
+            $image_path = "removed";
+        } else {
+            if ($commentImage['error'] === UPLOAD_ERR_OK) {
+                $image_path = $uploads->updateCommentImage($_SESSION['user_id'], $commentId);
+
+                if (!$image_path) {
+                    echo json_encode(array('status' => 'error', 'message' => 'Error uploading file!'));
+                    exit();
+                }
+            } else {
+                $image_path = "";
+            }
         }
 
         $result = $comments->updateComment($commentId, $commentContent, $image_path);

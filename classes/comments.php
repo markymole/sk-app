@@ -9,6 +9,9 @@ class Comments
         if ($image_src == "") {
             $query = 'UPDATE comments SET comment_content = ? WHERE comment_id = ?';
             $params = [$comment_content, $comment_id];
+        } else if ($image_src == "removed") {
+            $query = 'UPDATE comments SET comment_content = ?, image_src = ? WHERE comment_id = ?';
+            $params = [$comment_content, "", $comment_id];
         } else {
             $query = 'UPDATE comments SET comment_content = ?, image_src = ? WHERE comment_id = ?';
             $params = [$comment_content, $image_src, $comment_id];
